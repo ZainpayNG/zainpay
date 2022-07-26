@@ -1,8 +1,8 @@
 <p align="center">  
-   <img title="ZainPay" height="200" src="https://flutterwave.com/images/logo/full.svg" width="50%"/>
+   <img title="ZainPay" height="200" src="https://github.com/itcglobal/zainpay/blob/main/zainpay.png" width="50%"/>
 </p>  
 
-# ZainPay Flutter SDK (Standard)
+# ZainPay Flutter Package
 
 The Flutter library helps you create seamless payment experiences in your dart mobile app. By connecting to our modal, you can start collecting payment in no time.
 
