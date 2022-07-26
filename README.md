@@ -15,7 +15,7 @@ The Flutter library helps you create seamless payment experiences in your dart m
 
 ## Requirements
 
-1. ZainPay for business [API Keys](https://https://zainpay.ng/developers)
+1. ZainPay for business [API Keys](https://zainpay.ng/developers)
 2. Supported Flutter version >= 1.17.0
 
 
