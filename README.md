@@ -30,14 +30,12 @@ The Flutter library helps you create seamless payment experiences in your dart m
 
 To create an instance, you should call the Zainpay constructor. This constructor accepts a mandatory instance of the following:
 
-- The calling `Context`
+- The calling
 -  `publicKey`
--  `Customer`
 -  `amount`
--  `currency`
 -  `email`
 -  `fullName`
--  `txRef`
+-  `transactionRef`
 -  `isDebug`
 
 It returns an instance of Zainpay which we then call the async method `.charge()` on.

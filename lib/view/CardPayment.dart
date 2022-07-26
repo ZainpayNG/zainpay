@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:zainpay/PaymentIntro.dart';
+import 'package:zainpay/view/PaymentIntro.dart';
+import 'package:zainpay/models/standard_request.dart';
 
+import '../core/transaction_callback.dart';
 import 'Constants.dart';
 import 'SuccessfulPayment.dart';
 
 class CardPayment extends StatefulWidget {
 
-  final String email;
-  final String reference;
-  final double amount;
+  final StandardRequest request;
+  final BuildContext context;
 
   const CardPayment({
     Key? key,
-    required this.email,
-    required this.reference,
-    required this.amount
+    required this.request,
+    required this.context
   }) : super(key: key);
 
   @override
   CardPaymentState createState() => CardPaymentState();
 }
 
-class CardPaymentState extends State<CardPayment> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
+class CardPaymentState extends State<CardPayment> implements TransactionCallBack {
 
   @override
   Widget build(BuildContext context) {
@@ -39,78 +34,6 @@ class CardPaymentState extends State<CardPayment> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 20, bottom: 20, right: 16, left: 16),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 48,
-                        width: 48,
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        decoration: BoxDecoration(
-                          color: hexToColor(blackColor),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: const Image(
-                          // fit: BoxFit.cover,
-                          height: 8,
-                          width: 35,
-                          image: AssetImage(
-                              'images/patoosh.png'
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(widget.email,
-                            style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400
-                            ),),
-                          const SizedBox(height: 4,),
-                          Text('NGN ${formatter.format(widget.amount)}',
-                            style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400
-                            ),),
-                        ],
-                      ),
-                      const Spacer(),
-                      Container(
-                        margin: const EdgeInsets.only(right: 0),
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(4)),
-                            color: hexToColor(paymentCancelButtonColor)
-                        ),
-                        width: 75,
-                        height: 32,
-                        child: MaterialButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Cancel',
-                              style: blackTextStyle.copyWith(
-                                  fontFamily: paymentFontFamily,
-                                  color: hexToColor(paymentTextColor),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400
-                              )
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 18,
-                  child: Divider(
-                    height: 1,
-                    thickness: 1,
-                    color: hexToColor(dividerGreyColor),
-                  ),
-                ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
@@ -343,19 +266,17 @@ class CardPaymentState extends State<CardPayment> {
                           onPressed: () => Navigator.push(
                             context, MaterialPageRoute(
                             builder: (BuildContext context) => SuccessfulPayment(
-                              accountName: 'Patoosh Cafe',
-                              reference: widget.reference,
-                              amount: widget.amount,
-                              email: widget.email,
+                              request: widget.request,
                               isSuccessful: false,
-                              pageRoute: MaterialPageRoute(builder: (context) => const PaymentIntro(
-                                  email: "test@zainpay.ng",
-                                  reference: "reference2345432",
-                                  amount: 120.3)),
+                              pageRoute: MaterialPageRoute(builder: (context) => PaymentIntro(
+                                context: widget.context,
+                                  standardRequest: widget.request
+                              )
+                              ),
                             ),
                           ),
                           ),
-                          child: Text('Pay NGN ${formatter.format(widget.amount)}',
+                          child: Text('Pay NGN ${formatter.format(widget.request.amount)}',
                               style: blackTextStyle.copyWith(
                                   fontFamily: paymentFontFamily,
                                   color: Colors.white,
@@ -408,5 +329,23 @@ class CardPaymentState extends State<CardPayment> {
         ),
       ),
     );
+  }
+
+  @override
+  onCancelled() {
+    // TODO: implement onCancelled
+    throw UnimplementedError();
+  }
+
+  @override
+  onTransactionError() {
+    // TODO: implement onTransactionError
+    throw UnimplementedError();
+  }
+
+  @override
+  onTransactionSuccess(String id, String txRef) {
+    // TODO: implement onTransactionSuccess
+    throw UnimplementedError();
   }
 }

@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:zainpay/models/standard_request.dart';
 
 import 'BankTransferPayment.dart';
 import 'Constants.dart';
 
 class SuccessfulPayment extends StatefulWidget {
 
-  final String reference;
-  final String accountName;
-  final String email;
-  final double amount;
+  final StandardRequest request;
   final bool isSuccessful;
   final MaterialPageRoute pageRoute;
 
   const SuccessfulPayment({
     Key? key,
-    required this.reference,
-    required this.accountName,
-    required this.email,
-    required this.amount,
+    required this.request,
     required this.isSuccessful,
     required this.pageRoute,
   }) : super(key: key);
@@ -109,7 +104,7 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('N${formatter.format(widget.amount.toInt())}',
+                            Text('N${formatter.format(widget.request.amount.toInt())}',
                                 style: blackTextStyle.copyWith(
                                     fontFamily: paymentFontFamily,
                                     color: hexToColor(paymentTextColor),
@@ -117,7 +112,7 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                                     fontWeight: FontWeight.w500
                                 )
                             ),
-                            Text(' has been sent to',
+                            Text('is Successful',
                                 style: blackTextStyle.copyWith(
                                     fontFamily: paymentFontFamily,
                                     color: hexToColor(paymentTextColor),
@@ -126,14 +121,6 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                                 )
                             ),
                           ],
-                        ),
-                        Text(widget.accountName,
-                            style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
-                                color: hexToColor(paymentTextColor),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500
-                            )
                         ),
                       ],
                     ),
@@ -163,9 +150,8 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                           Future.delayed(const Duration(seconds: 1), () {
                             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                                 builder: (BuildContext context) => BankTransferPayment(
-                                  amount: widget.amount,
-                                  reference: widget.reference,
-                                  email: widget.email,
+                                  context: context,
+                                  request: widget.request,
                                 )
                             ), (ModalRoute.withName(Navigator.defaultRouteName)));
                           });

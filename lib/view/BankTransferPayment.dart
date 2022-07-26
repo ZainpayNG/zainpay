@@ -1,44 +1,45 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:zainpay/models/standard_request.dart';
+import 'package:zainpay/view/view_utils.dart';
 
-import 'APICalls.dart';
+import '../core/transaction_callback.dart';
+import '../models/charge_response.dart';
 import 'Constants.dart';
 import 'SuccessfulPayment.dart';
 
 class BankTransferPayment extends StatefulWidget {
 
-  final String reference;
-  final String email;
-  final double amount;
+  final StandardRequest request;
+  final BuildContext context;
 
   const BankTransferPayment({
     Key? key,
-    required this.reference,
-    required this.email,
-    required this.amount
+    required this.request,
+    required this.context
   }) : super(key: key);
 
   @override
   BankTransferPaymentState createState() => BankTransferPaymentState();
 }
 
-class BankTransferPaymentState extends State<BankTransferPayment> with WidgetsBindingObserver {
+class BankTransferPaymentState extends State<BankTransferPayment> with WidgetsBindingObserver
+    implements TransactionCallBack {
 
   String accountNumber = "", orderReference = "", accountName = "",
       bankName = "";
   bool isLoading = false;
-  late APiCalls aPiCalls;
   late CountdownTimerController controller;
   int endTime = DateTime.now().millisecondsSinceEpoch + 7000 * 60;
 
   @override
   void initState() {
     super.initState();
-    aPiCalls = APiCalls();
     controller = CountdownTimerController(endTime: endTime);
   }
 
@@ -51,15 +52,12 @@ class BankTransferPaymentState extends State<BankTransferPayment> with WidgetsBi
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
       builder: (BuildContext context) => SuccessfulPayment(
         isSuccessful: isSuccessful,
-        accountName: accountName,
-        reference: widget.reference,
-        amount: widget.amount,
-        email: widget.email,
+        request: widget.request,
         pageRoute: MaterialPageRoute(builder: (context) =>
             BankTransferPayment(
-                reference: widget.reference,
-                email: widget.email,
-                amount: widget.amount)
+              context: context,
+                request: widget.request
+            )
         ),
       ),
     ), (ModalRoute.withName(Navigator.defaultRouteName)));
@@ -84,79 +82,6 @@ class BankTransferPaymentState extends State<BankTransferPayment> with WidgetsBi
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                margin: const EdgeInsets.only(top: 20, bottom: 20, right: 16, left: 16),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 48,
-                      width: 48,
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      decoration: BoxDecoration(
-                        color: hexToColor(blackColor),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: const Image(
-                        // fit: BoxFit.cover,
-                        height: 8,
-                        width: 35,
-                        image: AssetImage(
-                            'images/patoosh.png'
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.email,
-                          style: blackTextStyle.copyWith(
-                              fontFamily: paymentFontFamily,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400
-                          ),),
-                        const SizedBox(height: 4,),
-                        Text('N${formatter.format(widget.amount.abs())}',
-                          style: blackTextStyle.copyWith(
-                              fontFamily: paymentFontFamily,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Container(
-                      margin: const EdgeInsets.only(right: 0),
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(4)),
-                          color: hexToColor(paymentCancelButtonColor)
-                      ),
-                      width: 75,
-                      height: 32,
-                      child: MaterialButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text('Cancel',
-                            style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
-                                color: hexToColor(paymentTextColor),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400
-                            )
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 18,
-                child: Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: hexToColor(dividerGreyColor),
-                ),
-              ),
               Container(
                 margin: const EdgeInsets.only(left: 16, top: 8, bottom: 12),
                 child: Text('Pay with Bank Transfer',
@@ -190,7 +115,7 @@ class BankTransferPaymentState extends State<BankTransferPayment> with WidgetsBi
                                       fontWeight: FontWeight.w400
                                   )
                               ),
-                              Text('N${formatter.format(widget.amount.abs())}',
+                              Text('N${formatter.format(widget.request.amount.abs())}',
                                   style: blackTextStyle.copyWith(
                                       fontFamily: paymentFontFamily,
                                       color: hexToColor(blackColor),
@@ -344,7 +269,7 @@ class BankTransferPaymentState extends State<BankTransferPayment> with WidgetsBi
                             )
                         ),
                         const Spacer(),
-                        Text('N${formatter.format((widget.amount).abs())}',
+                        Text('N${formatter.format((widget.request.amount).abs())}',
                             style: blackTextStyle.copyWith(
                                 fontFamily: paymentFontFamily,
                                 color: hexToColor(blackColor),
@@ -478,5 +403,28 @@ class BankTransferPaymentState extends State<BankTransferPayment> with WidgetsBi
         ),
       ),
     );
+  }
+
+  void _showErrorAndClose(final String errorMessage) {
+    ZainpayViewUtils.showToast(widget.context, errorMessage);
+    Navigator.pop(widget.context); // return response to user
+  }
+
+  @override
+  onCancelled() {
+    ZainpayViewUtils.showToast(widget.context, "Transaction Cancelled");
+    Navigator.pop(context);
+  }
+
+  @override
+  onTransactionError() {
+    _showErrorAndClose("transaction error");
+  }
+
+  @override
+  onTransactionSuccess(String id, String txRef) {
+    final ChargeResponse chargeResponse = ChargeResponse(
+        status: "success", success: true, transactionId: id, txRef: txRef);
+    Navigator.pop(widget.context, chargeResponse);
   }
 }
