@@ -1,39 +1,28 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+<p align="center">  
+   <img title="ZainPay" height="200" src="https://flutterwave.com/images/logo/full.svg" width="50%"/>
+</p>  
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+# ZainPay Flutter SDK (Standard)
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+The Flutter library helps you create seamless payment experiences in your dart mobile app. By connecting to our modal, you can start collecting payment in no time.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
 
-## Features
+## Table of Contents
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+1. [Requirements](#requirements)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Support](#support)
+5. [Contribution guidelines](#contribution-guidelines)
+6. [License](#license)
 
-## Getting started
+## Requirements
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+1. ZainPay for business [API Keys](https://https://zainpay.ng/developers)
+2. Supported Flutter version >= 1.17.0
 
-## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+## Installation
 
-```dart
-const like = 'sample';
-```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+1. Add the dependency to your project. In your `pubspec.yaml` file add: `zainpay: 0.0.1`
+2. Run `flutter pub get`
