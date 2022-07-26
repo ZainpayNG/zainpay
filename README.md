@@ -12,9 +12,6 @@ The Flutter library helps you create seamless payment experiences in your dart m
 1. [Requirements](#requirements)
 2. [Installation](#installation)
 3. [Usage](#usage)
-4. [Support](#support)
-5. [Contribution guidelines](#contribution-guidelines)
-6. [License](#license)
 
 ## Requirements
 
