@@ -19,7 +19,7 @@ The Flutter library helps you create seamless payment experiences in your dart m
 2. Supported Flutter version >= 1.17.0
 
 
-## Installation
+## Installation process
 
 1. Add the dependency to your project. In your `pubspec.yaml` file add: `zainpay: 0.0.1`
 2. Run `flutter pub get`
