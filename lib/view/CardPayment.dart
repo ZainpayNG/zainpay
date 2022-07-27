@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zainpay/view/PaymentIntro.dart';
 import 'package:zainpay/models/standard_request.dart';
 import 'package:zainpay/view/view_utils.dart';
@@ -356,12 +356,7 @@ class CardPaymentState extends State<CardPayment> implements TransactionCallBack
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SvgPicture.asset(
-                                      'images/left_arrow.svg',
-                                      height: 20,
-                                      width: 20,
-                                      fit: BoxFit.scaleDown
-                                  ),
+                                  Icon(FontAwesomeIcons.arrowLeft, size: 10, color: hexToColor(paymentBlueBackgroundColor),),
                                   const SizedBox(width: 7,),
                                   Text('Change Payment Method',
                                       style: blackTextStyle.copyWith(

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zainpay/models/standard_request.dart';
 
-import 'BankTransferPayment.dart';
 import 'Constants.dart';
 
 class SuccessfulPayment extends StatefulWidget {
@@ -34,7 +33,6 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
@@ -51,7 +49,7 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                     width: 70,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: widget.isSuccessful ? hexToColor(paymentIconBlueBackgroundColor) : hexToColor(redColor).withOpacity(0.3),
+                      color: hexToColor(paymentIconBlueBackgroundColor),
                     ),
                     child: Container(
                       height: 40.29,
@@ -59,20 +57,15 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                       margin: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: widget.isSuccessful ? hexToColor(paymentBlueBackgroundColor) : hexToColor(darkRed),
+                        color: hexToColor(paymentBlueBackgroundColor),
                       ),
-                      child: SvgPicture.asset(
-                          widget.isSuccessful ? 'images/single_check.svg' : 'images/error_image.svg',
-                          height: 15,
-                          width: 15,
-                          fit: BoxFit.scaleDown
-                      ),
+                      child: const Icon(FontAwesomeIcons.checkDouble, size: 15, color: Colors.white,),
                     ),
                   ),
                 ),
                 const SizedBox(height: 30,),
                 Center(
-                  child: widget.isSuccessful ? Text(
+                    child: Text(
                       'Transaction Successful',
                       textAlign: TextAlign.center,
                       style: blackTextStyle.copyWith(
@@ -81,19 +74,10 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                           fontSize: 14,
                           fontWeight: FontWeight.w700
                       )
-                  ) : Text(
-                      'Transaction Unsuccessful',
-                      textAlign: TextAlign.center,
-                      style: blackTextStyle.copyWith(
-                          fontFamily: paymentFontFamily,
-                          color: hexToColor(blackColor),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700
-                      )
-                  ),
+                  )
                 ),
                 const SizedBox(height: 16,),
-                widget.isSuccessful ? Center(
+                Center(
                   child: SizedBox(
                     width: 199,
                     child: Column(
@@ -104,7 +88,7 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('N${formatter.format(widget.request.amount.toInt())}',
+                            Text('Payment of N${formatter.format(widget.request.amount.toInt())} ',
                                 style: blackTextStyle.copyWith(
                                     fontFamily: paymentFontFamily,
                                     color: hexToColor(paymentTextColor),
@@ -125,50 +109,18 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                       ],
                     ),
                   ),
-                ) : Container(height: 30,),
+                ),
                 const SizedBox(height: 40,),
-                widget.isSuccessful ? SizedBox(
+                SizedBox(
                   height: 30,
                   width: 30,
                   child: CircularProgressIndicator(
                     strokeWidth: .5,
                     color: hexToColor(paymentBlueBackgroundColor),
                   ),
-                ) : Container(),
-                !widget.isSuccessful ? Center(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(4)),
-                          color: hexToColor(paymentBlueBackgroundColor)
-                      ),
-                      width: 328,
-                      height: 48,
-                      child: MaterialButton(
-                        height: 48,
-                        onPressed: () {
-                          Future.delayed(const Duration(seconds: 1), () {
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                                builder: (BuildContext context) => BankTransferPayment(
-                                  context: context,
-                                  request: widget.request,
-                                )
-                            ), (ModalRoute.withName(Navigator.defaultRouteName)));
-                          });
-                        },
-                        child: Text('Try Again',
-                            style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400
-                            )
-                        ),
-                      ),
-                    )
-                ) : Container(),
-                widget.isSuccessful ? const SizedBox(height: 80) : Container(),
-                widget.isSuccessful ? Center(
+                ),
+                const SizedBox(height: 80),
+                Center(
                   child: SizedBox(
                     width: 200,
                     child: Text(
@@ -182,7 +134,7 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                         )
                     ),
                   ),
-                ) : Container(),
+                ),
               ],
             ),
           ),

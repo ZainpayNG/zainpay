@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zainpay/models/standard_request.dart';
 import 'package:zainpay/view/view_utils.dart';
@@ -389,12 +388,7 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(
-                              'images/left_arrow.svg',
-                              height: 20,
-                              width: 20,
-                              fit: BoxFit.scaleDown
-                          ),
+                          Icon(FontAwesomeIcons.arrowLeft, size: 10, color: hexToColor(paymentBlueBackgroundColor),),
                           const SizedBox(width: 7,),
                           Text('Cancel Transaction',
                               style: blackTextStyle.copyWith(
