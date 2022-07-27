@@ -82,6 +82,14 @@ class CardPaymentState extends State<CardPayment> implements TransactionCallBack
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 18,
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: hexToColor(dividerGreyColor),
+                  ),
+                ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(

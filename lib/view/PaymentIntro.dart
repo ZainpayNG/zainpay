@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zainpay/models/standard_request.dart';
 
@@ -25,11 +24,6 @@ class PaymentIntro extends StatefulWidget {
 class PaymentIntroState extends State<PaymentIntro> {
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -37,6 +31,60 @@ class PaymentIntroState extends State<PaymentIntro> {
           margin: const EdgeInsets.symmetric(vertical: 32),
           child: Column(
             children: [
+              Container(
+                margin: const EdgeInsets.only(top: 20, bottom: 20, right: 16, left: 16),
+                child: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(widget.standardRequest.email,
+                          style: blackTextStyle.copyWith(
+                              fontFamily: paymentFontFamily,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400
+                          ),),
+                        const SizedBox(height: 4,),
+                        Text('NGN ${formatter.format(widget.standardRequest.amount)}',
+                          style: blackTextStyle.copyWith(
+                              fontFamily: paymentFontFamily,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400
+                          ),),
+                      ],
+                    ),
+                    const Spacer(),
+                    Container(
+                      margin: const EdgeInsets.only(right: 0),
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(4)),
+                          color: hexToColor(paymentCancelButtonColor)
+                      ),
+                      width: 75,
+                      height: 32,
+                      child: MaterialButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text('Cancel',
+                            style: blackTextStyle.copyWith(
+                                fontFamily: paymentFontFamily,
+                                color: hexToColor(paymentTextColor),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400
+                            )
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 18,
+                child: Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: hexToColor(dividerGreyColor),
+                ),
+              ),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -60,7 +108,7 @@ class PaymentIntroState extends State<PaymentIntro> {
                             color: hexToColor(paymentIconBlueBackgroundColor),
                             borderRadius: BorderRadius.circular(4)
                         ),
-                        child: Icon(FontAwesomeIcons.ccVisa, size: 20, color: hexToColor(paymentIconBlueBackgroundColor)),
+                        child: Icon(FontAwesomeIcons.ccVisa, size: 12, color: hexToColor(blackColor)),
                       ),
                       const SizedBox(width: 16,),
                       Text('Pay with Card',
@@ -78,7 +126,7 @@ class PaymentIntroState extends State<PaymentIntro> {
                             color: hexToColor(paymentCancelButtonColor),
                             borderRadius: BorderRadius.circular(25)
                         ),
-                        child: Icon(FontAwesomeIcons.chevronRight, size: 20, color: hexToColor(paymentIconBlueBackgroundColor),)
+                        child: Icon(FontAwesomeIcons.chevronRight, size: 12, color: hexToColor(blackColor),)
                       ),
                     ],
                   ),
@@ -115,7 +163,7 @@ class PaymentIntroState extends State<PaymentIntro> {
                             color: hexToColor(paymentIconBlueBackgroundColor),
                             borderRadius: BorderRadius.circular(4)
                         ),
-                        child: Icon(FontAwesomeIcons.buildingColumns, size: 20, color: hexToColor(paymentIconBlueBackgroundColor),)
+                        child: Icon(FontAwesomeIcons.buildingColumns, size: 12, color: hexToColor(blackColor),)
                       ),
                       const SizedBox(width: 16,),
                       Text('Pay with Bank Transfer',
@@ -134,7 +182,7 @@ class PaymentIntroState extends State<PaymentIntro> {
                             color: hexToColor(paymentCancelButtonColor),
                             borderRadius: BorderRadius.circular(25)
                         ),
-                        child: Icon(FontAwesomeIcons.chevronRight, size: 20, color: hexToColor(paymentIconBlueBackgroundColor),)
+                        child: Icon(FontAwesomeIcons.chevronRight, size: 12, color: hexToColor(blackColor),)
                       ),
                     ],
                   ),
