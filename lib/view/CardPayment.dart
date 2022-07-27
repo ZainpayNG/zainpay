@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:zainpay/view/PaymentIntro.dart';
 import 'package:zainpay/models/standard_request.dart';
+import 'package:zainpay/view/view_utils.dart';
 
 import '../core/transaction_callback.dart';
+import '../models/charge_response.dart';
 import 'Constants.dart';
 import 'SuccessfulPayment.dart';
 
@@ -34,6 +36,52 @@ class CardPaymentState extends State<CardPayment> implements TransactionCallBack
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 20, bottom: 20, right: 16, left: 16),
+                  child: Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(widget.request.email,
+                            style: blackTextStyle.copyWith(
+                                fontFamily: paymentFontFamily,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400
+                            ),),
+                          const SizedBox(height: 4,),
+                          Text('NGN ${formatter.format(widget.request.amount)}',
+                            style: blackTextStyle.copyWith(
+                                fontFamily: paymentFontFamily,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400
+                            ),),
+                        ],
+                      ),
+                      const Spacer(),
+                      Container(
+                        margin: const EdgeInsets.only(right: 0),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(4)),
+                            color: hexToColor(paymentCancelButtonColor)
+                        ),
+                        width: 75,
+                        height: 32,
+                        child: MaterialButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('Cancel',
+                              style: blackTextStyle.copyWith(
+                                  fontFamily: paymentFontFamily,
+                                  color: hexToColor(paymentTextColor),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400
+                              )
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
@@ -127,9 +175,9 @@ class CardPaymentState extends State<CardPayment> implements TransactionCallBack
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Container(
-                              height: 80,
-                              width: 152,
-                              padding: const EdgeInsets.only(left: 16, top: 6),
+                              height: 75,
+                              width: 130,
+                              padding: const EdgeInsets.only(left: 10, right: 10, top: 6),
                               decoration: BoxDecoration(
                                 color: hexToColor(dividerGreyColor),
                                 borderRadius: BorderRadius.circular(4),
@@ -181,11 +229,11 @@ class CardPaymentState extends State<CardPayment> implements TransactionCallBack
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 0,),
+                            const Spacer(),
                             Container(
-                              height: 80,
-                              width: 164,
-                              padding: const EdgeInsets.only(left: 16, top: 6, right: 10),
+                              height: 75,
+                              width: 130,
+                              padding: const EdgeInsets.only(left: 10, right: 10, top: 6),
                               decoration: BoxDecoration(
                                 color: hexToColor(dividerGreyColor),
                                 borderRadius: BorderRadius.circular(4),
@@ -269,7 +317,7 @@ class CardPaymentState extends State<CardPayment> implements TransactionCallBack
                               request: widget.request,
                               isSuccessful: false,
                               pageRoute: MaterialPageRoute(builder: (context) => PaymentIntro(
-                                context: widget.context,
+                                  context: widget.context,
                                   standardRequest: widget.request
                               )
                               ),
@@ -331,21 +379,26 @@ class CardPaymentState extends State<CardPayment> implements TransactionCallBack
     );
   }
 
+  void _showErrorAndClose(final String errorMessage) {
+    ZainpayViewUtils.showToast(widget.context, errorMessage);
+    Navigator.pop(widget.context);
+  }
+
   @override
   onCancelled() {
-    // TODO: implement onCancelled
-    throw UnimplementedError();
+    ZainpayViewUtils.showToast(widget.context, "Transaction Cancelled");
+    Navigator.pop(context);
   }
 
   @override
   onTransactionError() {
-    // TODO: implement onTransactionError
-    throw UnimplementedError();
+    _showErrorAndClose("transaction error");
   }
 
   @override
   onTransactionSuccess(String id, String txRef) {
-    // TODO: implement onTransactionSuccess
-    throw UnimplementedError();
+    final ChargeResponse chargeResponse = ChargeResponse(
+        status: "success", success: true, transactionId: id, txRef: txRef);
+    Navigator.pop(widget.context, chargeResponse);
   }
 }

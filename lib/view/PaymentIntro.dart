@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zainpay/models/standard_request.dart';
 
 import 'BankTransferPayment.dart';
@@ -59,12 +60,7 @@ class PaymentIntroState extends State<PaymentIntro> {
                             color: hexToColor(paymentIconBlueBackgroundColor),
                             borderRadius: BorderRadius.circular(4)
                         ),
-                        child: SvgPicture.asset(
-                            'images/pay_with_card.svg',
-                            height: 20,
-                            width: 20,
-                            fit: BoxFit.scaleDown
-                        ),
+                        child: Icon(FontAwesomeIcons.ccVisa, size: 20, color: hexToColor(paymentIconBlueBackgroundColor)),
                       ),
                       const SizedBox(width: 16,),
                       Text('Pay with Card',
@@ -82,12 +78,7 @@ class PaymentIntroState extends State<PaymentIntro> {
                             color: hexToColor(paymentCancelButtonColor),
                             borderRadius: BorderRadius.circular(25)
                         ),
-                        child: SvgPicture.asset(
-                            'images/vector.svg',
-                            height: 10,
-                            width: 5,
-                            fit: BoxFit.scaleDown
-                        ),
+                        child: Icon(FontAwesomeIcons.chevronRight, size: 20, color: hexToColor(paymentIconBlueBackgroundColor),)
                       ),
                     ],
                   ),
@@ -124,12 +115,7 @@ class PaymentIntroState extends State<PaymentIntro> {
                             color: hexToColor(paymentIconBlueBackgroundColor),
                             borderRadius: BorderRadius.circular(4)
                         ),
-                        child: SvgPicture.asset(
-                            'images/bank_transfer.svg',
-                            height: 20,
-                            width: 20,
-                            fit: BoxFit.scaleDown
-                        ),
+                        child: Icon(FontAwesomeIcons.buildingColumns, size: 20, color: hexToColor(paymentIconBlueBackgroundColor),)
                       ),
                       const SizedBox(width: 16,),
                       Text('Pay with Bank Transfer',
@@ -148,12 +134,7 @@ class PaymentIntroState extends State<PaymentIntro> {
                             color: hexToColor(paymentCancelButtonColor),
                             borderRadius: BorderRadius.circular(25)
                         ),
-                        child: SvgPicture.asset(
-                            'images/vector.svg',
-                            height: 10,
-                            width: 5,
-                            fit: BoxFit.scaleDown
-                        ),
+                        child: Icon(FontAwesomeIcons.chevronRight, size: 20, color: hexToColor(paymentIconBlueBackgroundColor),)
                       ),
                     ],
                   ),

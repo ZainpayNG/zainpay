@@ -407,7 +407,7 @@ class BankTransferPaymentState extends State<BankTransferPayment> with WidgetsBi
 
   void _showErrorAndClose(final String errorMessage) {
     ZainpayViewUtils.showToast(widget.context, errorMessage);
-    Navigator.pop(widget.context); // return response to user
+    Navigator.pop(widget.context);
   }
 
   @override
