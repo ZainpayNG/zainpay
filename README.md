@@ -1,5 +1,5 @@
 <p align="center">  
-   <img title="Zainpay" height="100" src="https://github.com/itcglobal/zainpay/blob/main/zainpay.png" width="50%"/>
+   <img title="Zainpay" height="100" src="https://raw.githubusercontent.com/itcglobal/zainpay/main/zainpay.png" width="50%"/>
 </p>  
 
 # Zainpay Flutter Package
@@ -30,7 +30,6 @@ The Flutter library helps you create seamless payment experiences in your dart m
 
 To create an instance, you should call the Zainpay constructor. This constructor accepts a mandatory instance of the following:
 
-- The calling
 -  `context`
 -  `fullName`
 -  `email`
@@ -41,7 +40,7 @@ To create an instance, you should call the Zainpay constructor. This constructor
 
 It returns an instance of Zainpay which we then call the async method `.charge()` on.
 
-    _handlePaymentInitialization() async {
+    `_handlePaymentInitialization() async {
     final Zainpay zainpay = Zainpay(
         context: context,
         fullName: nameController.text.toString(),
@@ -58,16 +57,10 @@ It returns an instance of Zainpay which we then call the async method `.charge()
     } else {
       showLoading("No Response!");
     }
-    }
+    }`
 
 ## License
 
 By contributing to the Flutter library, you agree that your contributions will be licensed under its [MIT license](/LICENSE).
 
-Copyright (c) Zainpay.ng.
-
-## Built Using
-
-- [flutter](https://flutter.dev/)
-- [http](https://pub.dev/packages/http)
-- [fluttertoast](https://pub.dev/packages/fluttertoast)
+Copyright (c) zainpay.ng
