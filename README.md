@@ -4,7 +4,7 @@
 
 # Zainpay Flutter Package
 
-The Flutter library helps you create seamless payment experiences in your dart mobile app.
+The Flutter library helps you create seamless payment experiences in your flutter mobile app.
 By connecting to our modal, you can start collecting payment in no time.
 
 
@@ -13,7 +13,6 @@ By connecting to our modal, you can start collecting payment in no time.
 1. [Requirements](#requirements)
 2. [Installation](#installation)
 3. [Usage](#usage)
-4. [Handling Response](#Handling Response)
 
 ## Requirements
 
@@ -23,8 +22,8 @@ By connecting to our modal, you can start collecting payment in no time.
 
 ## Installation
 
-1. Add the dependency to your project. In your `pubspec.yaml` file add: `zainpay: 0.0.4`
-2. Run `flutter pub get`
+1. Add the dependency to your project. In your `pubspec.yaml`, file add: `zainpay: 0.0.4`.
+2. Run `flutter pub get`.
 
 ## Usage
 
@@ -52,7 +51,7 @@ It returns an instance of Zainpay which we then call the async method `.charge()
         transactionRef: getRandomString(16),
         amount: double.parse(amountController.text.toString())
     );
-    final ChargeResponse response = await zainpay.charge();
+    final ChargeResponse? response = await zainpay.charge();
     if (response != null) {
       showLoading(response.status!);
       debugPrint("${response.toJson()}");
@@ -61,11 +60,11 @@ It returns an instance of Zainpay which we then call the async method `.charge()
     }
     }
 
-## Handling Response
+### Handling the response
 
-Calling the `.charge()` method returns a Future of ChargeResponse which we await for the actual response as seen above.
+Calling the `.charge()` method returns a Future of `ChargeResponse?` which we await for the actual response as seen above.
 
-    final ChargeResponse response = await zainpay.charge();
+    final ChargeResponse? response = await zainpay.charge();
     if (response != null) {
         showLoading(response.status!);
         debugPrint("${response.toJson()}");
@@ -73,7 +72,7 @@ Calling the `.charge()` method returns a Future of ChargeResponse which we await
         showLoading("No Response!");
     }
 
-Note:
+#### Note:
 
 1. `ChargeResponse` can be null if a user cancels the transaction by pressing back.
 2. You need to confirm the transaction is successful. Ensure that the txRef, amount, and status are correct and successful. Be sure to verify the transaction details before providing value.

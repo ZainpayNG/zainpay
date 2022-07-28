@@ -20,7 +20,6 @@ class ZainpayViewUtils {
             "You will be charged a total of $transactionCurrency "
                 "$amount. Do you wish to continue? ",
             textAlign: TextAlign.center,
-            // style: textStyle,
             style: const TextStyle(
               color: Colors.black,
               fontSize: 18,
@@ -64,34 +63,36 @@ class ZainpayViewUtils {
       final Widget? progressIndicator,
       final TextStyle? textStyle,
       final Color? dialogBackgroundColor) {
-    final Widget indicator = progressIndicator ?? const CircularProgressIndicator(backgroundColor: Colors.orangeAccent);
+    final Widget indicator = progressIndicator
+        ?? const CircularProgressIndicator(
+            backgroundColor: Colors.orangeAccent);
 
-    final style = textStyle ?? const TextStyle(color: Colors.black);
+    final style = textStyle
+        ?? const TextStyle(color: Colors.black);
 
     return showDialog(
-      context: context,
-      barrierDismissible: dismissible,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: dialogBackgroundColor,
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              indicator,
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: style,
-              )
-            ],
-          ),
-        );
-      },
+        context: context,
+        barrierDismissible: dismissible,
+        builder: (BuildContext context) =>
+            AlertDialog(
+              backgroundColor: dialogBackgroundColor,
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  indicator,
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: style,
+                  )
+                ],
+              ),
+            )
     );
   }
 
-  static void _goBackToPaymentScreen(final BuildContext context) => Navigator.of(context).pop();
-
+  static void _goBackToPaymentScreen(final BuildContext context) =>
+      Navigator.of(context).pop();
 
   /// Creates a customised Appbar
   static AppBar appBar(
@@ -101,31 +102,28 @@ class ZainpayViewUtils {
       final Icon appBarIcon,
       final Color appBarColor,
       [final Function? handleBackPress]) => AppBar(
-      backgroundColor: appBarColor,
-      titleTextStyle: appBarTitleTextStyle,
-      leading: IconButton(
-        icon: appBarIcon,
-        onPressed: () => handleBackPress == null
-            ? _goBackToPaymentScreen(context)
-            : handleBackPress(),
-      ),
-      title: Text(title, style: appBarTitleTextStyle),
-    );
+    backgroundColor: appBarColor,
+    titleTextStyle: appBarTitleTextStyle,
+    leading: IconButton(
+      icon: appBarIcon,
+      onPressed: () => handleBackPress == null
+          ? _goBackToPaymentScreen(context)
+          : handleBackPress(),
+    ),
+    title: Text(title, style: appBarTitleTextStyle),
+  );
 
   /// Displays a Snack bar
-  static showSnackBar(BuildContext context, String text) {
-    final snackBar = SnackBar(content: Text(text));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
+  static showSnackBar(BuildContext context, String text) =>
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
 
 
   /// Displays a toast notification
-  static void showToast(BuildContext context, String text) {
+  static void showToast(BuildContext context, String text) =>
     Fluttertoast.showToast(
       msg: text,
       timeInSecForIosWeb: 1,
       backgroundColor: const Color(0xAA383737),
       textColor: Colors.white,
     );
-  }
 }

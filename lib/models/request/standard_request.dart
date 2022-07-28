@@ -22,7 +22,7 @@ class StandardRequest {
     required this.fullName,
     required this.narration,
     required this.amount,
-});
+  });
 
   @override
   String toString() => jsonEncode(_toJson());
@@ -41,7 +41,7 @@ class StandardRequest {
 
   /// Executes network call to initiate transactions
   Future<StandardResponse> execute(client) async {
-    final url = Utils.getBaseUrl() + Utils.standardPayment;
+    final url = Utils.getBaseUrl();
     final uri = Uri.parse(url);
     try {
       final response = await client.post(uri,
