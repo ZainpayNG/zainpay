@@ -1,4 +1,4 @@
 library zainpay;
 
 export './core/zainpay.dart';
-export './models/charge_response.dart';
+export 'models/response/charge_response.dart';

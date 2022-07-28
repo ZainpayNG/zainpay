@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zainpay/view/PaymentIntro.dart';
-import 'package:zainpay/models/standard_request.dart';
+import 'package:zainpay/models/request/standard_request.dart';
 import 'package:zainpay/view/view_utils.dart';
 
 import '../core/transaction_callback.dart';
-import '../models/charge_response.dart';
+import '../models/response/charge_response.dart';
 import 'Constants.dart';
 import 'SuccessfulPayment.dart';
 
@@ -356,7 +356,7 @@ class CardPaymentState extends State<CardPayment> implements TransactionCallBack
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(FontAwesomeIcons.arrowLeft, size: 10, color: hexToColor(paymentBlueBackgroundColor),),
+                                  Icon(FontAwesomeIcons.arrowLeft, size: 12, color: hexToColor(paymentBlueBackgroundColor),),
                                   const SizedBox(width: 7,),
                                   Text('Change Payment Method',
                                       style: blackTextStyle.copyWith(

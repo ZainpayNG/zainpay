@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:zainpay/models/standard_request.dart';
+import 'package:zainpay/models/request/standard_request.dart';
 
 import 'Constants.dart';
 
@@ -22,14 +22,6 @@ class SuccessfulPayment extends StatefulWidget {
 }
 
 class SuccessfulPaymentState extends State<SuccessfulPayment> {
-
-  double total = 0.0, takeAwayFee = 0.0, vat = 0.0, deliveryFee = 0.0, serviceFee = 0.0;
-  int quantity = 0;
-
-  @override
-  void initState() {
-    super.initState();
-   }
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +123,7 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                             color: hexToColor(textGreyColor),
                             fontSize: 14,
                             fontWeight: FontWeight.w400
-                        )
+                        ),
                     ),
                   ),
                 ),

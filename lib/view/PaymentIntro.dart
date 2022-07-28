@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:zainpay/models/standard_request.dart';
+import 'package:zainpay/models/request/standard_request.dart';
+import 'package:zainpay/view/view_utils.dart';
 
 import 'BankTransferPayment.dart';
 import 'CardPayment.dart';
@@ -22,6 +23,12 @@ class PaymentIntro extends StatefulWidget {
 }
 
 class PaymentIntroState extends State<PaymentIntro> {
+
+  @override
+  void initState() {
+    super.initState();
+    _showConfirmDialog();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,4 +209,25 @@ class PaymentIntroState extends State<PaymentIntro> {
       ),
     );
   }
+
+  void _showConfirmDialog() {
+    ZainpayViewUtils.showConfirmPaymentModal(
+        widget.context,
+        widget.standardRequest.amount,
+        _handlePayment);
+  }
+
+  void _handlePayment() async {
+    try {
+      Navigator.of(widget.context).pop();
+    } catch (error) {
+      _showErrorAndClose(error.toString());
+    }
+  }
+
+  void _showErrorAndClose(final String errorMessage) {
+    ZainpayViewUtils.showToast(widget.context, errorMessage);
+    Navigator.pop(widget.context);
+  }
+
 }

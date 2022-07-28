@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:zainpay/models/standard_response.dart';
+import 'package:zainpay/models/response/standard_response.dart';
 import 'package:zainpay/models/transaction_error.dart';
 
-import '../utils.dart';
+import '../../utils.dart';
 
 class StandardRequest {
 
@@ -41,7 +41,7 @@ class StandardRequest {
 
   /// Executes network call to initiate transactions
   Future<StandardResponse> execute(client) async {
-    final url = Utils.getBaseUrl(true) + Utils.STANDARD_PAYMENT;
+    final url = Utils.getBaseUrl() + Utils.standardPayment;
     final uri = Uri.parse(url);
     try {
       final response = await client.post(uri,

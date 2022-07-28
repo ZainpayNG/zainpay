@@ -135,7 +135,7 @@ class _TestAppState extends State<TestApp> {
         transactionRef: getRandomString(16),
         amount: 120.0
     );
-    final ChargeResponse response = await zainpay.charge();
+    final ChargeResponse? response = await zainpay.charge();
     if (response != null) {
       showLoading(response.status!);
       debugPrint("${response.toJson()}");

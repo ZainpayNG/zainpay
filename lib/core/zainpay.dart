@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zainpay/view/PaymentIntro.dart';
 
-import '../models/charge_response.dart';
-import '../models/standard_request.dart';
+import '../models/response/charge_response.dart';
+import '../models/request/standard_request.dart';
 
 class Zainpay {
 
@@ -25,7 +25,7 @@ class Zainpay {
   });
 
   /// Starts Standard Transaction
-  Future<ChargeResponse> charge() async {
+  Future<ChargeResponse?> charge() async {
     final request = StandardRequest(
       fullName: fullName,
         email: email,

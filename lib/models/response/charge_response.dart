@@ -1,4 +1,4 @@
-import '../core/transaction_status.dart';
+import '../../core/transaction_status.dart';
 
 class ChargeResponse {
   String? status;

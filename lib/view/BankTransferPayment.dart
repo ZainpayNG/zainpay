@@ -5,11 +5,11 @@ import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:zainpay/models/standard_request.dart';
+import 'package:zainpay/models/request/standard_request.dart';
 import 'package:zainpay/view/view_utils.dart';
 
 import '../core/transaction_callback.dart';
-import '../models/charge_response.dart';
+import '../models/response/charge_response.dart';
 import 'Constants.dart';
 import 'SuccessfulPayment.dart';
 
@@ -31,8 +31,8 @@ class BankTransferPayment extends StatefulWidget {
 class BankTransferPaymentState extends State<BankTransferPayment>
     with WidgetsBindingObserver implements TransactionCallBack {
 
-  String accountNumber = "", orderReference = "", accountName = "",
-      bankName = "";
+  String accountNumber = "0290249103", accountName = "LogicBud LTD",
+      bankName = "WEMA Bank";
   bool isLoading = false;
   late CountdownTimerController controller;
   int endTime = DateTime.now().millisecondsSinceEpoch + 7000 * 60;
@@ -284,7 +284,7 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                             )
                         ),
                         const Spacer(),
-                        Text('PATOOSH CAFE',
+                        Text(accountName,
                             style: blackTextStyle.copyWith(
                                 fontFamily: paymentFontFamily,
                                 color: hexToColor(blackColor),
@@ -388,7 +388,7 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(FontAwesomeIcons.arrowLeft, size: 10, color: hexToColor(paymentBlueBackgroundColor),),
+                          Icon(FontAwesomeIcons.arrowLeft, size: 12, color: hexToColor(paymentBlueBackgroundColor),),
                           const SizedBox(width: 7,),
                           Text('Cancel Transaction',
                               style: blackTextStyle.copyWith(

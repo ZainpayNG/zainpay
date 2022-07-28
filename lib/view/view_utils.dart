@@ -6,55 +6,55 @@ class ZainpayViewUtils {
   /// Displays a modal to confirm payment
   static Future<void> showConfirmPaymentModal(
       final BuildContext context,
-      final String amount,
+      final double amount,
       final Function onContinuePressed) async => showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext buildContext) {
-        const transactionCurrency = "NGN";
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          content: Container(
-            margin: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-            child: Text(
-              "You will be charged a total of $transactionCurrency "
-                  "$amount. Do you wish to continue? ",
-              textAlign: TextAlign.center,
-              // style: textStyle,
-              style: const TextStyle(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext buildContext) {
+      const transactionCurrency = "NGN";
+      return AlertDialog(
+        backgroundColor: Colors.white,
+        content: Container(
+          margin: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+          child: Text(
+            "You will be charged a total of $transactionCurrency "
+                "$amount. Do you wish to continue? ",
+            textAlign: TextAlign.center,
+            // style: textStyle,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              letterSpacing: 1.2,
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => {Navigator.of(context).pop()},
+            child: const Text(
+              "CANCEL",
+              style: TextStyle(
                 color: Colors.black,
-                fontSize: 18,
-                letterSpacing: 1.2,
+                fontSize: 12,
+                letterSpacing: 1,
               ),
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => {Navigator.of(context).pop()},
-              child: const Text(
-                "CANCEL",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  letterSpacing: 1,
-                ),
+          TextButton(
+            onPressed: () => onContinuePressed(),
+            child: const Text(
+              "CONTINUE",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 12,
+                letterSpacing: 1,
               ),
             ),
-            TextButton(
-              onPressed: () => onContinuePressed(),
-              child: const Text(
-                "CONTINUE",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  letterSpacing: 1,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
+          ),
+        ],
+      );
+    },
+  );
 
   /// Shows progress dialog
   Future<void> showProgressDialog(
@@ -66,8 +66,7 @@ class ZainpayViewUtils {
       final Color? dialogBackgroundColor) {
     final Widget indicator = progressIndicator ?? const CircularProgressIndicator(backgroundColor: Colors.orangeAccent);
 
-    final style =
-    textStyle ?? const TextStyle(color: Colors.black);
+    final style = textStyle ?? const TextStyle(color: Colors.black);
 
     return showDialog(
       context: context,
@@ -91,9 +90,8 @@ class ZainpayViewUtils {
     );
   }
 
-  static void _goBackToPaymentScreen(final BuildContext context) {
-    Navigator.of(context).pop();
-  }
+  static void _goBackToPaymentScreen(final BuildContext context) => Navigator.of(context).pop();
+
 
   /// Creates a customised Appbar
   static AppBar appBar(
@@ -102,9 +100,7 @@ class ZainpayViewUtils {
       final TextStyle appBarTitleTextStyle,
       final Icon appBarIcon,
       final Color appBarColor,
-      [final Function? handleBackPress]) {
-
-    return AppBar(
+      [final Function? handleBackPress]) => AppBar(
       backgroundColor: appBarColor,
       titleTextStyle: appBarTitleTextStyle,
       leading: IconButton(
@@ -115,9 +111,8 @@ class ZainpayViewUtils {
       ),
       title: Text(title, style: appBarTitleTextStyle),
     );
-  }
 
-  /// Displays a Snackbar
+  /// Displays a Snack bar
   static showSnackBar(BuildContext context, String text) {
     final snackBar = SnackBar(content: Text(text));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
