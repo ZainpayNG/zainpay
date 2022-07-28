@@ -1,27 +1,22 @@
-import '../../core/transaction_status.dart';
-
 class ChargeResponse {
+  String? txnRef;
   String? status;
-  bool? success;
-  String? transactionId;
-  String? txRef;
 
-  ChargeResponse({this.status, this.success, this.transactionId, this.txRef});
+  ChargeResponse({
+    this.txnRef,
+    this.status
+  });
 
   ChargeResponse.fromJson(Map<String, dynamic> json) {
-    status = json['status'] ?? TransactionStatus.ERROR;
-    success = json['success'] ?? false ;
-    transactionId = json['transaction_id'];
-    txRef = json['tx_ref'];
+    txnRef = json['txnRef'];
+    status = json['status'];
   }
 
   /// Converts this instance to json
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['txnRef'] = txnRef;
     data['status'] = status;
-    data['success'] = success;
-    data['transaction_id'] = transactionId;
-    data['tx_ref'] = txRef;
     return data;
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:zainpay/view/PaymentIntro.dart';
 
-import '../models/response/charge_response.dart';
 import '../models/request/standard_request.dart';
+import '../models/response/standard_response.dart';
+import '../models/transaction_error.dart';
 
 class Zainpay {
 
@@ -11,7 +12,10 @@ class Zainpay {
   final String transactionRef;
   final String email;
   final String fullName;
-  final String narration;
+  final String mobileNumber;
+  final String zainboxCode;
+  final String successCallBackUrl;
+  final String failureCallBackUrl;
   final double amount;
 
   const Zainpay({
@@ -20,22 +24,42 @@ class Zainpay {
     required this.transactionRef,
     required this.email,
     required this.fullName,
-    required this.narration,
+    required this.mobileNumber,
+    required this.zainboxCode,
     required this.amount,
+    required this.successCallBackUrl,
+    required this.failureCallBackUrl
   });
 
+  Future<StandardResponse> startTransaction(final StandardRequest request) async {
+    try {
+      final StandardResponse standardResponse = await request.initializePayment();
+      if (standardResponse.status != "Success" && standardResponse.code != "00") {
+        throw (TransactionError(standardResponse.description!));
+      }
+      return standardResponse;
+    } catch (error) {
+      debugPrint("error is $error");
+      rethrow;
+    }
+  }
+
   /// Starts Standard Transaction
-  Future<ChargeResponse?> charge() async {
+  Future<StandardResponse> charge() async {
+
     final request = StandardRequest(
       fullName: fullName,
-        email: email,
-        narration: narration,
-        transactionRef: transactionRef,
-        amount: amount,
-        publicKey: publicKey
+      email: email,
+      transactionRef: transactionRef,
+      amount: amount,
+      zainboxCode: zainboxCode,
+      publicKey: publicKey,
+      successCallBackUrl: successCallBackUrl,
+      failureCallBackUrl: failureCallBackUrl,
+      mobileNumber: mobileNumber,
     );
 
-    return await Navigator.push(
+    return await startTransaction(request).whenComplete(() => Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => PaymentIntro(
@@ -43,6 +67,6 @@ class Zainpay {
           standardRequest: request,
         ),
       ),
-    );
+    ));
   }
 }

@@ -24,7 +24,8 @@ class CardPayment extends StatefulWidget {
   CardPaymentState createState() => CardPaymentState();
 }
 
-class CardPaymentState extends State<CardPayment> implements TransactionCallBack {
+class CardPaymentState extends State<CardPayment>
+    implements TransactionCallBack {
 
   @override
   Widget build(BuildContext context) {
@@ -387,6 +388,8 @@ class CardPaymentState extends State<CardPayment> implements TransactionCallBack
     Navigator.pop(widget.context);
   }
 
+
+
   @override
   onCancelled() {
     ZainpayViewUtils.showToast(widget.context, "Transaction Cancelled");
@@ -401,7 +404,9 @@ class CardPaymentState extends State<CardPayment> implements TransactionCallBack
   @override
   onTransactionSuccess(String id, String txRef) {
     final ChargeResponse chargeResponse = ChargeResponse(
-        status: "success", success: true, transactionId: id, txRef: txRef);
+        status: "success",
+        txnRef: txRef
+    );
     Navigator.pop(widget.context, chargeResponse);
   }
 }

@@ -468,7 +468,9 @@ class BankTransferPaymentState extends State<BankTransferPayment>
   @override
   onTransactionSuccess(String id, String txRef) {
     final ChargeResponse chargeResponse = ChargeResponse(
-        status: "success", success: true, transactionId: id, txRef: txRef);
+        status: "success",
+        txnRef: txRef
+    );
     Navigator.pop(widget.context, chargeResponse);
   }
 }

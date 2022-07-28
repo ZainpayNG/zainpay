@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zainpay/models/request/standard_request.dart';
+import 'package:zainpay/models/response/standard_response.dart';
 import 'package:zainpay/view/view_utils.dart';
 
+import '../models/transaction_error.dart';
 import 'BankTransferPayment.dart';
 import 'CardPayment.dart';
 import 'Constants.dart';
@@ -214,7 +216,8 @@ class PaymentIntroState extends State<PaymentIntro> {
     ZainpayViewUtils.showConfirmPaymentModal(
         widget.context,
         widget.standardRequest.amount,
-        _handlePayment);
+        _handlePayment
+    );
   }
 
   void _handlePayment() async {

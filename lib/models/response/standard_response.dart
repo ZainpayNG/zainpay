@@ -1,39 +1,25 @@
 class StandardResponse {
   String? status;
-  String? message;
-  StandardResponseData? data;
+  String? description;
+  String? sessionId;
+  String? code;
 
-  StandardResponse({this.status, this.data, this.message});
+  StandardResponse({this.status, this.sessionId, this.description});
 
   StandardResponse.fromJson(Map<String, dynamic> json) {
     status = json["status"];
-    message = json["message"];
-    data = StandardResponseData.fromJson(json["data"]);
+    description = json["description"];
+    code = json["code"];
+    sessionId = json["data"].toString().split("e=")[1];
   }
 
   /// Converts this instance to json
   Map<String, dynamic> toJson() {
     return {
       "status": status,
-      "message": message,
-      "data": data?.toJson()
-    };
-  }
-}
-
-class StandardResponseData {
-  String? link;
-
-  StandardResponseData([this.link = ""]);
-
-  StandardResponseData.fromJson(Map<String, dynamic> json) {
-    link = json["link"];
-  }
-
-  /// Converts this instance to json
-  Map<String, dynamic> toJson() {
-    return {
-      "link": link
+      "description": description,
+      "code": code,
+      "sessionId": sessionId
     };
   }
 }

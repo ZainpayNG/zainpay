@@ -121,27 +121,29 @@ class _TestAppState extends State<TestApp> {
 
   _onPressed() {
     if (formKey.currentState!.validate()) {
-      handlePaymentInitialization();
+      // handlePaymentInitialization();
     }
   }
 
-  handlePaymentInitialization() async {
-    final Zainpay zainpay = Zainpay(
-        context: context,
-        fullName: nameController.text.toString(),
-        email: emailController.text.toString(),
-        publicKey: getPublicKey(),
-        narration: narrationController.text.toString(),
-        transactionRef: getRandomString(16),
-        amount: 120.0
-    );
-    final ChargeResponse? response = await zainpay.charge();
-    if (response != null) {
-      showLoading(response.status!);
-      debugPrint("${response.toJson()}");
-    } else {
-      showLoading("No Response!");
-    }
-  }
+  // handlePaymentInitialization() async {
+  //   final Zainpay zainpay = Zainpay(
+  //       context: context,
+  //       zainboxCode: getRandomString(30),
+  //       fullName: nameController.text.toString(),
+  //       email: emailController.text.toString(),
+  //       publicKey: getPublicKey(),
+  //       transactionRef: getRandomString(16),
+  //       amount: 120.0
+  //   );
+  //
+  //   final ChargeResponse? response = await zainpay.charge();
+  //
+  //   if (response != null) {
+  //     showLoading(response.status!);
+  //     debugPrint("${response.toJson()}");
+  //   } else {
+  //     showLoading("No Response!");
+  //   }
+  // }
 }
 
