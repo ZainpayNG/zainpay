@@ -29,7 +29,7 @@ class CardValidationRequest {
       "cardEncryptionData": cardEncryptionData
     };
 
-  /// Executes network call to initiate transactions
+  /// Executes network call to initiate card transactions
   Future<CardValidationResponse> cardValidation() async {
     const url = Utils.cardPayment;
     final uri = Uri.parse(url);

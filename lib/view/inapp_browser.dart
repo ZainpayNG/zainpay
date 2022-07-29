@@ -3,6 +3,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../core/transaction_callback.dart';
 
 class ZainpayInAppBrowser extends InAppBrowser {
+
   final TransactionCallBack callBack;
 
   var hasCompletedProcessing = false;

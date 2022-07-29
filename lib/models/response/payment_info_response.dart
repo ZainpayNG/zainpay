@@ -1,19 +1,19 @@
-class GetPaymentInfo {
+class PaymentInfo {
   String? code;
-  GetPaymentInfoData? data;
+  PaymentInfoData? data;
   String? description;
   String? status;
 
-  GetPaymentInfo({
+  PaymentInfo({
     this.code,
     this.data,
     this.description,
     this.status
   });
 
-  GetPaymentInfo.fromJson(Map<String, dynamic> json) {
+  PaymentInfo.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    data = GetPaymentInfoData.fromJson(json['data']);
+    data = PaymentInfoData.fromJson(json['data']);
     description = json['description'];
     status = json['status'];
   }
@@ -30,18 +30,18 @@ class GetPaymentInfo {
 }
 
 
-class GetPaymentInfoData {
+class PaymentInfoData {
   String? amount;
-  bool? emailAddress;
+  String? emailAddress;
   String? failureCallBackUrl;
 
-  GetPaymentInfoData({
+  PaymentInfoData({
     this.amount,
     this.emailAddress,
     this.failureCallBackUrl
   });
 
-  GetPaymentInfoData.fromJson(Map<String, dynamic> data) {
+  PaymentInfoData.fromJson(Map<String, dynamic> data) {
     amount = data['amount'];
     emailAddress = data['emailAddress'];
     failureCallBackUrl = data['failureCallBackUrl'];

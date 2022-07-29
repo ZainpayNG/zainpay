@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
@@ -6,10 +5,8 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zainpay/models/request/standard_request.dart';
-import 'package:zainpay/view/view_utils.dart';
+import 'package:zainpay/zainpay.dart';
 
-import '../core/transaction_callback.dart';
-import '../models/response/charge_response.dart';
 import 'Constants.dart';
 import 'SuccessfulPayment.dart';
 
@@ -29,7 +26,7 @@ class BankTransferPayment extends StatefulWidget {
 }
 
 class BankTransferPaymentState extends State<BankTransferPayment>
-    with WidgetsBindingObserver implements TransactionCallBack {
+    with WidgetsBindingObserver {
 
   String accountNumber = "0290249103", accountName = "LogicBud LTD",
       bankName = "WEMA Bank";
@@ -49,16 +46,11 @@ class BankTransferPaymentState extends State<BankTransferPayment>
   }
 
   void reRouteToSuccess(isSuccessful) async {
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+    Navigator.pushAndRemoveUntil(widget.context, MaterialPageRoute(
       builder: (BuildContext context) => SuccessfulPayment(
-        isSuccessful: isSuccessful,
+        paymentResponse: PaymentResponse(),
         request: widget.request,
-        pageRoute: MaterialPageRoute(builder: (context) =>
-            BankTransferPayment(
-              context: context,
-                request: widget.request
-            )
-        ),
+        context: widget.context,
       ),
     ), (ModalRoute.withName(Navigator.defaultRouteName)));
   }
@@ -447,30 +439,5 @@ class BankTransferPaymentState extends State<BankTransferPayment>
         ),
       ),
     );
-  }
-
-  void _showErrorAndClose(final String errorMessage) {
-    ZainpayViewUtils.showToast(widget.context, errorMessage);
-    Navigator.pop(widget.context);
-  }
-
-  @override
-  onCancelled() {
-    ZainpayViewUtils.showToast(widget.context, "Transaction Cancelled");
-    Navigator.pop(context);
-  }
-
-  @override
-  onTransactionError() {
-    _showErrorAndClose("transaction error");
-  }
-
-  @override
-  onTransactionSuccess(String id, String txRef) {
-    final ChargeResponse chargeResponse = ChargeResponse(
-        status: "success",
-        txnRef: txRef
-    );
-    Navigator.pop(widget.context, chargeResponse);
   }
 }

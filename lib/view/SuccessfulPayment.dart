@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zainpay/models/request/standard_request.dart';
 
+import '../models/response/payment_response.dart';
 import 'Constants.dart';
 
 class SuccessfulPayment extends StatefulWidget {
 
   final StandardRequest request;
-  final bool isSuccessful;
-  final MaterialPageRoute pageRoute;
+  final PaymentResponse paymentResponse;
+  final BuildContext context;
 
   const SuccessfulPayment({
     Key? key,
     required this.request,
-    required this.isSuccessful,
-    required this.pageRoute,
+    required this.paymentResponse,
+    required this.context,
   }) : super(key: key);
 
   @override
@@ -22,6 +23,14 @@ class SuccessfulPayment extends StatefulWidget {
 }
 
 class SuccessfulPaymentState extends State<SuccessfulPayment> {
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pop(widget.context, widget.paymentResponse);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,17 +1,18 @@
-class OTPValidationResponse {
+class PaymentResponse {
+
   String? code;
   String? description;
   String? status;
   OTPValidationDataResponse? otpValidationDataResponse;
 
-  OTPValidationResponse({
+  PaymentResponse({
     this.code,
     this.description,
     this.status,
     this.otpValidationDataResponse
   });
 
-  OTPValidationResponse.fromJson(Map<String, dynamic> json) {
+  PaymentResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     description = json['description'];
     status = json['status'];
@@ -22,6 +23,9 @@ class OTPValidationResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['code'] = code;
+    data['description'] = description;
+    data['status'] = status;
+    data['data'] = otpValidationDataResponse;
     return data;
   }
 }

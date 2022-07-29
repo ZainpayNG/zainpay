@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zainpay/models/request/standard_request.dart';
-import 'package:zainpay/models/response/standard_response.dart';
+import 'package:zainpay/models/response/init_payment_response.dart';
 import 'package:zainpay/view/view_utils.dart';
 
 import '../models/transaction_error.dart';
@@ -25,6 +25,8 @@ class PaymentIntro extends StatefulWidget {
 }
 
 class PaymentIntroState extends State<PaymentIntro> {
+
+  String? sessionId;
 
   @override
   void initState() {
@@ -101,6 +103,7 @@ class PaymentIntroState extends State<PaymentIntro> {
                     MaterialPageRoute(
                       builder: (BuildContext context) => CardPayment(
                         context: widget.context,
+                        sessionId: sessionId!,
                         request: widget.standardRequest,
                       ),
                     ),
@@ -220,9 +223,23 @@ class PaymentIntroState extends State<PaymentIntro> {
     );
   }
 
+  Future<InitPaymentResponse> startTransaction(final StandardRequest request) async {
+    try {
+      final InitPaymentResponse standardResponse = await request.initializePayment();
+      if (standardResponse.status != "Success" && standardResponse.code != "00") {
+        throw (TransactionError(standardResponse.description!));
+      }
+      return standardResponse;
+    } catch (error) {
+      debugPrint("error is $error");
+      rethrow;
+    }
+  }
+
   void _handlePayment() async {
     try {
       Navigator.of(widget.context).pop();
+      await startTransaction(widget.standardRequest).then((value) => sessionId = value.sessionId);
     } catch (error) {
       _showErrorAndClose(error.toString());
     }

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zainpay/view/PaymentIntro.dart';
 
 import '../models/request/standard_request.dart';
-import '../models/response/standard_response.dart';
-import '../models/transaction_error.dart';
+import '../models/response/payment_response.dart';
 
 class Zainpay {
 
@@ -31,23 +30,10 @@ class Zainpay {
     required this.failureCallBackUrl
   });
 
-  Future<StandardResponse> startTransaction(final StandardRequest request) async {
-    try {
-      final StandardResponse standardResponse = await request.initializePayment();
-      if (standardResponse.status != "Success" && standardResponse.code != "00") {
-        throw (TransactionError(standardResponse.description!));
-      }
-      return standardResponse;
-    } catch (error) {
-      debugPrint("error is $error");
-      rethrow;
-    }
-  }
-
   /// Starts Standard Transaction
-  Future<StandardResponse> charge() async {
+  Future<PaymentResponse> charge() async {
 
-    final request = StandardRequest(
+    final StandardRequest request = StandardRequest(
       fullName: fullName,
       email: email,
       transactionRef: transactionRef,
@@ -59,14 +45,13 @@ class Zainpay {
       mobileNumber: mobileNumber,
     );
 
-    return await startTransaction(request).whenComplete(() => Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PaymentIntro(
-          context: context,
-          standardRequest: request,
-        ),
-      ),
-    ));
+    return await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PaymentIntro(
+            context: context,
+            standardRequest: request,
+          ),
+        ));
   }
 }

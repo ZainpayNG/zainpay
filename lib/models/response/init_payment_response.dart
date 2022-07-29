@@ -1,12 +1,13 @@
-class StandardResponse {
+class InitPaymentResponse {
+
   String? status;
   String? description;
   String? sessionId;
   String? code;
 
-  StandardResponse({this.status, this.sessionId, this.description});
+  InitPaymentResponse({this.status, this.sessionId, this.description});
 
-  StandardResponse.fromJson(Map<String, dynamic> json) {
+  InitPaymentResponse.fromJson(Map<String, dynamic> json) {
     status = json["status"];
     description = json["description"];
     code = json["code"];

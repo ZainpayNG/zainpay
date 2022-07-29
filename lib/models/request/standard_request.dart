@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import 'package:zainpay/models/response/standard_response.dart';
+import 'package:zainpay/models/response/init_payment_response.dart';
 import 'package:zainpay/models/transaction_error.dart';
 
 import '../../utils.dart';
@@ -47,7 +47,7 @@ class StandardRequest {
     };
 
   /// Executes network call to initiate transactions
-  Future<StandardResponse> initializePayment() async {
+  Future<InitPaymentResponse> initializePayment() async {
     const url = Utils.initializePayment;
     final uri = Uri.parse(url);
     try {
@@ -62,7 +62,7 @@ class StandardRequest {
         throw TransactionError(responseBody["message"] ??
             "An unexpected error occurred. Please try again.");
       }
-      return StandardResponse.fromJson(responseBody);
+      return InitPaymentResponse.fromJson(responseBody);
     } catch (error) {
       rethrow;
     }

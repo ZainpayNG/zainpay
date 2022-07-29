@@ -31,11 +31,14 @@ By connecting to our modal, you can start collecting payment in no time.
 To create an instance, you should call the Zainpay constructor. This constructor accepts a mandatory instance of the following:
 
 -  `context`
--  `fullName`
--  `email`
 -  `publicKey`
--  `narration`
 -  `transactionRef`
+-  `email`
+-  `fullName`
+-  `mobileNumber`
+-  `zainboxCode`
+-  `successCallBackUrl`
+-  `failureCallBackUrl`
 -  `amount`
 
 It returns an instance of Zainpay which we then call the async method `.charge()` on.
@@ -43,14 +46,17 @@ It returns an instance of Zainpay which we then call the async method `.charge()
     _handlePaymentInitialization() async {
         final Zainpay zainpay = Zainpay(
             context: context,
-            fullName: nameController.text.toString(),
-            email: emailController.text.toString(),
             publicKey: getPublicKey(),
-            narration: narrationController.text.toString(),
             transactionRef: getRandomString(16),
+            email: emailController.text.toString(),
+            fullName: nameController.text.toString(),
+            mobileNumber: phoneController.text.toString(),
+            zainboxCode: getZainboxCode(),
+            successCallBackUrl: 'test.zainpay.ng/success',
+            failureCallBackUrl: 'test.zainpay.ng/failure',
             amount: double.parse(amountController.text.toString())
         );
-        final ChargeResponse? response = await zainpay.charge();
+        final PaymentResponse? response = await zainpay.charge();
         if (response != null) {
             showLoading(response.status!);
             debugPrint("${response.toJson()}");
@@ -61,9 +67,10 @@ It returns an instance of Zainpay which we then call the async method `.charge()
 
 ### Handling the response
 
-Calling the `.charge()` method returns a Future of `ChargeResponse?` which we await for the actual response as seen above.
+Calling the `.charge()` method returns a Future of `PaymentResponse?` which we await for the actual response as seen above.
 
-    final ChargeResponse? response = await zainpay.charge();
+    final PaymentResponse? response = await zainpay.charge();
+
     if (response != null) {
         showLoading(response.status!);
         debugPrint("${response.toJson()}");
@@ -73,7 +80,7 @@ Calling the `.charge()` method returns a Future of `ChargeResponse?` which we aw
 
 #### Note:
 
-1. `ChargeResponse` can be null if a user cancels the transaction by pressing back.
+1. `PaymentResponse` can be null if a user cancels the transaction by pressing back.
 2. You need to confirm the transaction is successful. Ensure that the txRef, amount, and status are correct and successful. Be sure to verify the transaction details before providing value.
 
 ## License

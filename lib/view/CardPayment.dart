@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:zainpay/view/PaymentIntro.dart';
+import 'package:zainpay/models/request/card_validation_request.dart';
+import 'package:zainpay/models/request/otp_validation_request.dart';
+import 'package:zainpay/models/response/card_validation_response.dart';
+import 'package:zainpay/models/response/payment_response.dart';
+import 'package:zainpay/utils.dart';
 import 'package:zainpay/models/request/standard_request.dart';
-import 'package:zainpay/view/view_utils.dart';
 
-import '../core/transaction_callback.dart';
-import '../models/response/charge_response.dart';
+import '../models/transaction_error.dart';
 import 'Constants.dart';
 import 'SuccessfulPayment.dart';
 
 class CardPayment extends StatefulWidget {
 
   final StandardRequest request;
+  final String sessionId;
   final BuildContext context;
 
   const CardPayment({
     Key? key,
     required this.request,
+    required this.sessionId,
     required this.context
   }) : super(key: key);
 
@@ -24,8 +28,40 @@ class CardPayment extends StatefulWidget {
   CardPaymentState createState() => CardPaymentState();
 }
 
-class CardPaymentState extends State<CardPayment>
-    implements TransactionCallBack {
+class CardPaymentState extends State<CardPayment> {
+
+  final TextEditingController _cardNumberController = TextEditingController();
+  final TextEditingController _pinNumberController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _cvvController = TextEditingController();
+
+  bool isLoading = false;
+
+  Future<CardValidationResponse> startCardPayment(final CardValidationRequest request) async {
+    try {
+      final CardValidationResponse cardValidationResponse = await request.cardValidation();
+      if (cardValidationResponse.sessionId != null) {
+        throw (TransactionError(cardValidationResponse.description!));
+      }
+      return cardValidationResponse;
+    } catch (error) {
+      debugPrint("error is $error");
+      rethrow;
+    }
+  }
+
+  Future<PaymentResponse> startOTPProcessing(final OTPValidationRequest request) async {
+    try {
+      final PaymentResponse cardValidationResponse = await request.otpValidation();
+      if (cardValidationResponse.code != "00" ) {
+        throw (TransactionError(cardValidationResponse.description!));
+      }
+      return cardValidationResponse;
+    } catch (error) {
+      debugPrint("error is $error");
+      rethrow;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +180,7 @@ class CardPaymentState extends State<CardPayment>
                               keyboardType: TextInputType.number,
                               maxLines: 1,
                               minLines: 1,
+                              controller: _cardNumberController,
                               cursorColor: hexToColor(blackColor),
                               decoration: InputDecoration(
                                   focusedBorder: const OutlineInputBorder(
@@ -207,6 +244,7 @@ class CardPaymentState extends State<CardPayment>
                                     keyboardType: TextInputType.number,
                                     maxLines: 1,
                                     minLines: 1,
+                                    controller: _dateController,
                                     cursorColor: hexToColor(blackColor),
                                     decoration: InputDecoration(
                                         focusedBorder: const OutlineInputBorder(
@@ -277,6 +315,7 @@ class CardPaymentState extends State<CardPayment>
                                     keyboardType: TextInputType.number,
                                     maxLines: 1,
                                     minLines: 1,
+                                    controller: _cvvController,
                                     cursorColor: hexToColor(blackColor),
                                     decoration: InputDecoration(
                                         focusedBorder: const OutlineInputBorder(
@@ -312,6 +351,66 @@ class CardPaymentState extends State<CardPayment>
                         ),
                       ),
                       Container(
+                        height: 75,
+                        width: 130,
+                        padding: const EdgeInsets.only(left: 10, right: 10, top: 6),
+                        decoration: BoxDecoration(
+                          color: hexToColor(dividerGreyColor),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                                Text('Card PIN',
+                                    style: blackTextStyle.copyWith(
+                                        fontFamily: paymentFontFamily,
+                                        color: hexToColor(blackColor),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400
+                                    )
+                                ),
+                            TextField(
+                              keyboardType: TextInputType.number,
+                              maxLines: 1,
+                              minLines: 1,
+                              cursorColor: hexToColor(blackColor),
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide.none
+                                  ),
+                                  errorStyle: blackTextStyle.copyWith(
+                                      fontFamily: paymentFontFamily,
+                                      fontSize: 8,
+                                      height: .08,
+                                      color: hexToColor(redColor)
+                                  ),
+                                  errorMaxLines: 1,
+                                  enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide.none
+                                  ),
+                                  filled: true,
+                                  hintText: '****',
+                                  border: InputBorder.none,
+                                  fillColor: hexToColor(dividerGreyColor),
+                                  hintStyle: blackTextStyle.copyWith(
+                                      fontFamily: paymentFontFamily,
+                                      color: hexToColor(textGreyColor),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 16, )
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      isLoading ? Center(
+                        child: CircularProgressIndicator(
+                          color: hexToColor(paymentBlueBackgroundColor),
+                          strokeWidth: .5,
+                        )) : Container(
                         margin: const EdgeInsets.symmetric(vertical: 20),
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(Radius.circular(4)),
@@ -320,19 +419,44 @@ class CardPaymentState extends State<CardPayment>
                         width: 328,
                         height: 48,
                         child: MaterialButton(
-                          onPressed: () => Navigator.push(
-                            context, MaterialPageRoute(
-                            builder: (BuildContext context) => SuccessfulPayment(
-                              request: widget.request,
-                              isSuccessful: false,
-                              pageRoute: MaterialPageRoute(builder: (context) => PaymentIntro(
-                                  context: widget.context,
-                                  standardRequest: widget.request
-                              )
-                              ),
-                            ),
-                          ),
-                          ),
+                          onPressed: () async {
+
+                            setState(() => isLoading = true);
+
+                            CardValidationRequest cardValidationRequest = CardValidationRequest(
+                                sessionId: widget.sessionId,
+                                cardEncryptionData: Utils.encryptedCard,
+                                publicKey: Utils.token
+                            );
+
+                            await startCardPayment(cardValidationRequest).then((value) async {
+                              if(value.status == "Success" && value.code == "00"){
+                                OTPValidationRequest otpValidationRequest = OTPValidationRequest(
+                                    sessionId: value.sessionId!,
+                                    otp: "12345",
+                                    publicKey: Utils.token
+                                );
+                                await startOTPProcessing(otpValidationRequest).then((value) {
+                                  if(value.code == "00" && value.status == "Success"){
+                                    PaymentResponse paymentResponse = PaymentResponse(
+                                      code: value.code,
+                                      description: value.description,
+                                      otpValidationDataResponse: value.otpValidationDataResponse,
+                                      status: value.status
+                                    );
+                                    setState(() => isLoading = false);
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                                      builder: (BuildContext context) => SuccessfulPayment(
+                                        paymentResponse: paymentResponse,
+                                        request: widget.request,
+                                        context: widget.context,
+                                      ),
+                                    ), (ModalRoute.withName(Navigator.defaultRouteName)));
+                                  }
+                                });
+                              }
+                            });
+                          },
                           child: Text('Pay NGN ${formatter.format(widget.request.amount)}',
                               style: blackTextStyle.copyWith(
                                   fontFamily: paymentFontFamily,
@@ -381,32 +505,5 @@ class CardPaymentState extends State<CardPayment>
         ),
       ),
     );
-  }
-
-  void _showErrorAndClose(final String errorMessage) {
-    ZainpayViewUtils.showToast(widget.context, errorMessage);
-    Navigator.pop(widget.context);
-  }
-
-
-
-  @override
-  onCancelled() {
-    ZainpayViewUtils.showToast(widget.context, "Transaction Cancelled");
-    Navigator.pop(context);
-  }
-
-  @override
-  onTransactionError() {
-    _showErrorAndClose("transaction error");
-  }
-
-  @override
-  onTransactionSuccess(String id, String txRef) {
-    final ChargeResponse chargeResponse = ChargeResponse(
-        status: "success",
-        txnRef: txRef
-    );
-    Navigator.pop(widget.context, chargeResponse);
   }
 }
