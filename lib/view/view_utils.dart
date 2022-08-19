@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:zainpay/view/Constants.dart';
 
 class ZainpayViewUtils {
 
@@ -20,8 +21,8 @@ class ZainpayViewUtils {
             "You will be charged a total of $transactionCurrency "
                 "$amount. Do you wish to continue? ",
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: hexToColor(paymentBlueBackgroundColor),
               fontSize: 18,
               letterSpacing: 1.2,
             ),
@@ -29,11 +30,11 @@ class ZainpayViewUtils {
         ),
         actions: [
           TextButton(
-            onPressed: () => {Navigator.of(context).pop()},
-            child: const Text(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
               "CANCEL",
               style: TextStyle(
-                color: Colors.black,
+                color: hexToColor(redColor),
                 fontSize: 12,
                 letterSpacing: 1,
               ),
@@ -41,10 +42,10 @@ class ZainpayViewUtils {
           ),
           TextButton(
             onPressed: () => onContinuePressed(),
-            child: const Text(
+            child: Text(
               "CONTINUE",
               style: TextStyle(
-                color: Colors.black,
+                color: hexToColor(paymentBlueBackgroundColor),
                 fontSize: 12,
                 letterSpacing: 1,
               ),

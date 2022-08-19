@@ -1,4 +1,5 @@
 class PaymentInfo {
+
   String? code;
   PaymentInfoData? data;
   String? description;
@@ -19,14 +20,12 @@ class PaymentInfo {
   }
 
   /// Converts this instance to json
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['code'] = code;
-    data['data'] = data;
-    data['description'] = description;
-    data['status'] = status;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    'code' : code,
+    'data' : data,
+    'description' : description,
+    'status' : status
+  };
 }
 
 
@@ -48,12 +47,10 @@ class PaymentInfoData {
   }
 
   /// Converts this instance to json
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['amount'] = amount;
-    data['emailAddress'] = emailAddress;
-    data['failureCallBackUrl'] = failureCallBackUrl;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    'amount' : amount,
+    'emailAddress' : emailAddress,
+    'failureCallBackUrl' : failureCallBackUrl
+  };
 
 }

@@ -21,7 +21,7 @@ By connecting to our modal, you can start collecting payment in no time.
 
 ## Installation
 
-1. Add the dependency to your project. In your `pubspec.yaml`, file add: `zainpay: 0.0.5`.
+1. Add the dependency to your project. In your `pubspec.yaml`, file add: `zainpay: 0.1.11`.
 2. Run `flutter pub get`.
 
 ## Usage
@@ -31,37 +31,39 @@ By connecting to our modal, you can start collecting payment in no time.
 To create an instance, you should call the Zainpay constructor. This constructor accepts a mandatory instance of the following:
 
 -  `context`
--  `publicKey`
--  `transactionRef`
--  `email`
 -  `fullName`
+-  `email`
+-  `publicKey`
+-  `callBackUrl`
 -  `mobileNumber`
 -  `zainboxCode`
--  `successCallBackUrl`
--  `failureCallBackUrl`
+-  `transactionRef`
 -  `amount`
+-  `isTest`
 
 It returns an instance of Zainpay which we then call the async method `.charge()` on.
 
     _handlePaymentInitialization() async {
+
         final Zainpay zainpay = Zainpay(
             context: context,
+            fullName: fullNameController.text,
+            email: emailController.text,
             publicKey: getPublicKey(),
-            transactionRef: getRandomString(16),
-            email: emailController.text.toString(),
-            fullName: nameController.text.toString(),
-            mobileNumber: phoneController.text.toString(),
-            zainboxCode: getZainboxCode(),
-            successCallBackUrl: 'test.zainpay.ng/success',
-            failureCallBackUrl: 'test.zainpay.ng/failure',
-            amount: double.parse(amountController.text.toString())
+            callBackUrl: "https://localhost:8080/success",
+            mobileNumber: phoneController.text,
+            zainboxCode: getZainBoxCode(),
+            transactionRef: getRandomString(12),
+            amount: amountController.text,
+            isTest: true
         );
+
         final PaymentResponse? response = await zainpay.charge();
+
         if (response != null) {
-            showLoading(response.status!);
             debugPrint("${response.toJson()}");
         } else {
-            showLoading("No Response!");
+            debugPrint("No Response");
         }
     }
 
@@ -81,7 +83,8 @@ Calling the `.charge()` method returns a Future of `PaymentResponse?` which we a
 #### Note:
 
 1. `PaymentResponse` can be null if a user cancels the transaction by pressing back.
-2. You need to confirm the transaction is successful. Ensure that the txRef, amount, and status are correct and successful. Be sure to verify the transaction details before providing value.
+2. You need to confirm the transaction is successful. Ensure that the txRef, amount, and status are correct and successful. 
+3. Be sure to verify the transaction details before providing value.
 
 ## License
 

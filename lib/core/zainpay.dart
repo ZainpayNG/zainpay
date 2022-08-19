@@ -13,9 +13,9 @@ class Zainpay {
   final String fullName;
   final String mobileNumber;
   final String zainboxCode;
-  final String successCallBackUrl;
-  final String failureCallBackUrl;
-  final double amount;
+  final String callBackUrl;
+  final String amount;
+  final bool isTest;
 
   const Zainpay({
     required this.context,
@@ -26,27 +26,26 @@ class Zainpay {
     required this.mobileNumber,
     required this.zainboxCode,
     required this.amount,
-    required this.successCallBackUrl,
-    required this.failureCallBackUrl
+    required this.isTest,
+    required this.callBackUrl
   });
 
   /// Starts Standard Transaction
-  Future<PaymentResponse> charge() async {
+  Future<PaymentResponse?> charge() async {
 
     final StandardRequest request = StandardRequest(
-      fullName: fullName,
-      email: email,
-      transactionRef: transactionRef,
       amount: amount,
-      zainboxCode: zainboxCode,
-      publicKey: publicKey,
-      successCallBackUrl: successCallBackUrl,
-      failureCallBackUrl: failureCallBackUrl,
+      transactionRef: transactionRef,
       mobileNumber: mobileNumber,
+      zainboxCode: zainboxCode,
+      email: email,
+      publicKey: publicKey,
+      callBackUrl: callBackUrl,
+      fullName: fullName,
+      isTest: isTest
     );
 
-    return await Navigator.push(
-        context,
+    return await Navigator.push(context,
         MaterialPageRoute(
           builder: (context) => PaymentIntro(
             context: context,

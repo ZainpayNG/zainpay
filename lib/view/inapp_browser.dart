@@ -5,20 +5,21 @@ import '../core/transaction_callback.dart';
 class ZainpayInAppBrowser extends InAppBrowser {
 
   final TransactionCallBack callBack;
-
   var hasCompletedProcessing = false;
   var haveCallBacksBeenCalled = false;
 
   ZainpayInAppBrowser({required this.callBack});
 
   @override
-  Future onBrowserCreated() async {}
+  Future onBrowserCreated() async {
+
+  }
 
   @override
   Future onLoadStart(url) async {
     final status = url?.queryParameters["status"];
-    final txRef = url?.queryParameters["tx_ref"];
-    final id = url?.queryParameters["transaction_id"];
+    final txRef = url?.queryParameters["txnRef"];
+    final id = url?.queryParameters["txnRef"];
     final hasRedirected = status != null && txRef != null;
     if (hasRedirected && url != null) {
       hasCompletedProcessing = hasRedirected;
@@ -27,8 +28,8 @@ class ZainpayInAppBrowser extends InAppBrowser {
   }
 
   _processResponse(Uri url, String? status, String? txRef, String? id) {
-    if ("successful" == status) {
-      callBack.onTransactionSuccess(id!, txRef!);
+    if ("success" == status) {
+      callBack.onTransactionSuccess(id!, txRef!, url.toString());
     } else {
       callBack.onCancelled();
     }

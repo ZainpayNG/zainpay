@@ -3,7 +3,7 @@ class PaymentResponse {
   String? code;
   String? description;
   String? status;
-  OTPValidationDataResponse? otpValidationDataResponse;
+  dynamic otpValidationDataResponse;
 
   PaymentResponse({
     this.code,
@@ -20,14 +20,12 @@ class PaymentResponse {
   }
 
   /// Converts this instance to json
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['code'] = code;
-    data['description'] = description;
-    data['status'] = status;
-    data['data'] = otpValidationDataResponse;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    'code' : code,
+    'description' : description,
+    'status' : status,
+    'data' : otpValidationDataResponse
+  };
 }
 
 class OTPValidationDataResponse {
@@ -41,15 +39,13 @@ class OTPValidationDataResponse {
   });
 
   OTPValidationDataResponse.fromJson(Map<String, dynamic> json) {
-    callBackUrl = json['code'];
-    txnRef = json['code'];
+    callBackUrl = json['callBackUrl'];
+    txnRef = json['txnRef'];
   }
 
   /// Converts this instance to json
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['callBackUrl'] = callBackUrl;
-    data['txnRef'] = txnRef;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    'callBackUrl' : callBackUrl,
+    'txnRef' : txnRef
+  };
 }

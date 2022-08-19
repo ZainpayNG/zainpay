@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
-import 'package:flutter_countdown_timer/current_remaining_time.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:zainpay/models/request/standard_request.dart';
+import 'package:zainpay/models/request/create_va_request.dart';
+import 'package:zainpay/models/response/create_va_response.dart';
 import 'package:zainpay/zainpay.dart';
 
+import '../models/response/va_balance_response.dart';
 import 'Constants.dart';
 import 'SuccessfulPayment.dart';
 
 class BankTransferPayment extends StatefulWidget {
 
-  final StandardRequest request;
+  final CreateVirtualAccountRequest request;
   final BuildContext context;
 
   const BankTransferPayment({
@@ -28,37 +28,84 @@ class BankTransferPayment extends StatefulWidget {
 class BankTransferPaymentState extends State<BankTransferPayment>
     with WidgetsBindingObserver {
 
-  String accountNumber = "0290249103", accountName = "LogicBud LTD",
-      bankName = "WEMA Bank";
+  String? accountNumber = "", accountName = "", bankName = "";
   bool isLoading = false;
+  bool generalLoading = true;
   late CountdownTimerController controller;
   int endTime = DateTime.now().millisecondsSinceEpoch + 7000 * 60;
+
+  Future<CreateVirtualAccountResponse?> createVirtualAccount(final CreateVirtualAccountRequest request) async =>
+      await request.createVirtualAccount(widget.request.publicKey, widget.request.isTest);
+
+  Future<VirtualAccountBalanceResponse?> virtualAccountBalance(final CreateVirtualAccountRequest request) async =>
+      await request.virtualAccountBalance(widget.request.publicKey, accountNumber, widget.request.isTest);
+
+  init() async => await createVirtualAccount(widget.request)
+      .then((value) {
+    if(value != null) {
+      setState(() {
+        generalLoading = false;
+        accountNumber = value.data?.accountNumber;
+        accountName = value.data?.accountName;
+        bankName = value.data?.bankName;
+      });
+    }else {
+      Navigator.pop(context);
+    }
+  });
+
+  checkVABalance() async {
+    await virtualAccountBalance(widget.request).then((value) async {
+      if(value != null && value.data != null) {
+        if (value.data?.balanceAmount >= widget.request.amount) {
+          PaymentResponse paymentResponse = PaymentResponse(
+              code: value.code,
+              description: value.description,
+              otpValidationDataResponse: value.data,
+              status: value.status
+          );
+          setState(() => isLoading = false);
+          await Navigator.push(context, MaterialPageRoute(
+            builder: (BuildContext context) =>
+                SuccessfulPayment(
+                    paymentResponse: paymentResponse,
+                    request: widget.request,
+                    context: widget.context
+                ),
+          )).then((value) {
+            Navigator.pop(context, paymentResponse);
+          });
+        }else {
+          checkVABalance();
+        }
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    init();
     controller = CountdownTimerController(endTime: endTime);
   }
 
-  Future<void> _copyToClipboard(text) async {
-    await Clipboard.setData(ClipboardData(text: text));
-    showToast(message: 'Copied');
-  }
+  Future<void> _copyToClipboard(text) async =>
+      await Clipboard.setData(ClipboardData(text: text))
+          .then((value) => showToast(message: 'Copied'));
 
-  void reRouteToSuccess(isSuccessful) async {
-    Navigator.pushAndRemoveUntil(widget.context, MaterialPageRoute(
-      builder: (BuildContext context) => SuccessfulPayment(
-        paymentResponse: PaymentResponse(),
-        request: widget.request,
-        context: widget.context,
-      ),
-    ), (ModalRoute.withName(Navigator.defaultRouteName)));
-  }
+  void reRouteToSuccess(isSuccessful) async =>
+      Navigator.push(context, MaterialPageRoute(
+        builder: (BuildContext context) => SuccessfulPayment(
+          paymentResponse: PaymentResponse(),
+          request: widget.request,
+          context: widget.context,
+        ),
+      ));
 
   @override
   Widget build(BuildContext context) {
 
-    Text text = Text(accountNumber,
+    Text text = Text(accountNumber!,
         style: blackTextStyle.copyWith(
             fontFamily: paymentFontFamily,
             color: hexToColor(blackColor),
@@ -69,8 +116,13 @@ class BankTransferPaymentState extends State<BankTransferPayment>
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 32),
+        child: generalLoading ? Center(
+          child: CircularProgressIndicator(
+            color: hexToColor(paymentBlueBackgroundColor),
+            strokeWidth: .5,
+          ),
+        ) : Container(
+          margin: const EdgeInsets.symmetric(vertical: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -120,29 +172,26 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                   ],
                 ),
               ),
-              SizedBox(
-                height: 18,
-                child: Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: hexToColor(dividerGreyColor),
-                ),
+              Divider(
+                height: 1,
+                thickness: 1,
+                color: hexToColor(dividerGreyColor),
               ),
               Container(
-                margin: const EdgeInsets.only(left: 16, top: 8, bottom: 12),
+                margin: const EdgeInsets.only(left: 16, top: 10, bottom: 12),
                 child: Text('Pay with Bank Transfer',
-                    style: blackTextStyle.copyWith(
-                        fontFamily: paymentFontFamily,
-                        color: hexToColor(blackColor),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500
-                    )
+                  style: blackTextStyle.copyWith(
+                      fontFamily: paymentFontFamily,
+                      color: hexToColor(blackColor),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500
+                  ),
                 ),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 16),
                 child: SizedBox(
-                  height: 70,
+                  height: 50,
                   child : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -187,18 +236,15 @@ class BankTransferPaymentState extends State<BankTransferPayment>
               ),
               Column(
                 children: [
-                  SizedBox(
-                    height: 18,
-                    child: Divider(
-                      height: 1,
-                      thickness: 1,
-                      indent: 16,
-                      endIndent: 16,
-                      color: hexToColor(dividerGreyColor),
-                    ),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    indent: 16,
+                    endIndent: 16,
+                    color: hexToColor(dividerGreyColor),
                   ),
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: Row(
                       children: [
                         Text('Bank',
@@ -210,7 +256,7 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                             )
                         ),
                         const Spacer(),
-                        Text(bankName,
+                        Text(bankName!,
                             style: blackTextStyle.copyWith(
                                 fontFamily: paymentFontFamily,
                                 color: hexToColor(blackColor),
@@ -221,18 +267,15 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                       ],
                     ),
                   ) ,
-                  SizedBox(
-                    height: 18,
-                    child: Divider(
-                      height: 1,
-                      thickness: 1,
-                      indent: 16,
-                      endIndent: 16,
-                      color: hexToColor(dividerGreyColor),
-                    ),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    indent: 16,
+                    endIndent: 16,
+                    color: hexToColor(dividerGreyColor),
                   ),
                   Container (
-                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: Row(
                       children: [
                         Text('Account Number',
@@ -245,26 +288,23 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                         ),
                         const SizedBox(width: 10,),
                         GestureDetector(
-                          onTap: () => _copyToClipboard(text.data),
-                          child: Icon(FontAwesomeIcons.solidClone, size: 12, color: hexToColor(blackColor),)
+                            onTap: () => _copyToClipboard(text.data),
+                            child: Icon(FontAwesomeIcons.solidClone, size: 12, color: hexToColor(blackColor),)
                         ),
                         const Spacer(),
                         text,
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 18,
-                    child: Divider(
-                      height: 1,
-                      thickness: 1,
-                      indent: 16,
-                      endIndent: 16,
-                      color: hexToColor(dividerGreyColor),
-                    ),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    indent: 16,
+                    endIndent: 16,
+                    color: hexToColor(dividerGreyColor),
                   ),
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: Row(
                       children: [
                         Text('Account Name',
@@ -276,7 +316,7 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                             )
                         ),
                         const Spacer(),
-                        Text(accountName,
+                        Text(accountName!,
                             style: blackTextStyle.copyWith(
                                 fontFamily: paymentFontFamily,
                                 color: hexToColor(blackColor),
@@ -287,18 +327,15 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 18,
-                    child: Divider(
-                      height: 1,
-                      thickness: 1,
-                      indent: 16,
-                      endIndent: 16,
-                      color: hexToColor(dividerGreyColor),
-                    ),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    indent: 16,
+                    endIndent: 16,
+                    color: hexToColor(dividerGreyColor),
                   ),
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: Row(
                       children: [
                         Text('Amount To Pay',
@@ -321,13 +358,12 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 18,
-                    child: Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: hexToColor(dividerGreyColor),
-                    ),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    indent: 16,
+                    endIndent: 16,
+                    color: hexToColor(dividerGreyColor),
                   ),
                   isLoading ? Center(
                     child: Container(
@@ -349,8 +385,9 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                         width: 328,
                         height: 48,
                         child: MaterialButton(
-                          onPressed: () async {
+                          onPressed: () {
                             setState(() => isLoading = true);
+                            checkVABalance();
                           },
                           child: Text('Confirm Payment',
                               style: blackTextStyle.copyWith(
@@ -395,45 +432,16 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                   ),
                 ),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 30,),
               Center(
-                child: CountdownTimer(
-                    endTime: endTime,
-                    widgetBuilder: (_, CurrentRemainingTime? time) {
-                      if(time == null){
-                        return Container();
-                      }else {
-                        if(time.min == null) {
-                          return Text('00:${time.sec}',
-                            style: blackTextStyle.copyWith(
-                                color: hexToColor(paymentBlueBackgroundColor),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400
-                            ),
-                          );
-                        }else {
-                          return Text('${time.min}:${time.sec}',
-                            style: blackTextStyle.copyWith(
-                                color: hexToColor(paymentBlueBackgroundColor),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400
-                            ),
-                          );
-                        }
-                      }
-                    }
-                ),
-              ),
-              const SizedBox(height: 50,),
-              Center(
-                child: Text('Secured by zainpay',
+                child: Text('secured by zainpay',
                   style: blackTextStyle.copyWith(
                       color: hexToColor(paymentBlueBackgroundColor),
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: FontWeight.w400
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

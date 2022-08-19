@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:zainpay/zainpay.dart';
 
 class TestApp extends StatefulWidget {
   const TestApp({Key? key}) : super(key: key);
@@ -23,25 +22,23 @@ class _TestAppState extends State<TestApp> {
   final Random _rnd = Random();
   static const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 
-  String getPublicKey() => "FLWPUBK_TEST-895362a74986153380262d89bfdc9b8a-X";
-
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   Future<void> showLoading(String message) async => showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Container(
-            margin: const EdgeInsets.fromLTRB(30, 20, 30, 20),
-            width: double.infinity,
-            height: 50,
-            child: Text(message),
-          ),
-        );
-      },
-    );
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Container(
+          margin: const EdgeInsets.fromLTRB(30, 20, 30, 20),
+          width: double.infinity,
+          height: 50,
+          child: Text(message),
+        ),
+      );
+    },
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -125,25 +122,5 @@ class _TestAppState extends State<TestApp> {
     }
   }
 
-  // handlePaymentInitialization() async {
-  //   final Zainpay zainpay = Zainpay(
-  //       context: context,
-  //       zainboxCode: getRandomString(30),
-  //       fullName: nameController.text.toString(),
-  //       email: emailController.text.toString(),
-  //       publicKey: getPublicKey(),
-  //       transactionRef: getRandomString(16),
-  //       amount: 120.0
-  //   );
-  //
-  //   final ChargeResponse? response = await zainpay.charge();
-  //
-  //   if (response != null) {
-  //     showLoading(response.status!);
-  //     debugPrint("${response.toJson()}");
-  //   } else {
-  //     showLoading("No Response!");
-  //   }
-  // }
 }
 

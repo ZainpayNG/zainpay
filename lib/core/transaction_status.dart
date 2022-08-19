@@ -1,5 +1,5 @@
 class TransactionStatus {
-  static const SUCCESSFUL = "successful";
-  static const CANCELLED = "cancelled";
-  static const ERROR = "error";
+  static const successful = "successful";
+  static const cancelled = "cancelled";
+  static const error = "error";
 }

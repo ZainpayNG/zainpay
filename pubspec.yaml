@@ -1,6 +1,6 @@
 name: zainpay
 description: A flutter package to implement zainpay on your flutter application.
-version: 0.0.5
+version: 0.1.11
 homepage: "https://github.com/itcglobal/zainpay"
 
 environment:
@@ -13,8 +13,9 @@ dependencies:
 
   cupertino_icons: ^1.0.5
   intl: ^0.17.0
-  http: ^0.13.4
+  http: ^0.13.5
   font_awesome_flutter: ^10.1.0
+  awesome_card: ^1.1.7
   flutter_inappwebview: ^5.4.3+7
   fluttertoast: ^8.0.9
   overlay_support: ^2.0.1
@@ -33,8 +34,8 @@ dev_dependencies:
 flutter:
 
   # To add assets to your package, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/
   #   - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see
@@ -48,7 +49,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: Airbnb Cereal App
+      fonts:
+        - asset: fonts/AirbnbCerealBlack.ttf
+        - asset: fonts/AirbnbCerealBold.ttf
+        - asset: fonts/AirbnbCerealBook.ttf
+        - asset: fonts/AirbnbCerealExtraBold.ttf
+        - asset: fonts/AirbnbCerealLight.ttf
+        - asset: fonts/AirbnbCerealMedium.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

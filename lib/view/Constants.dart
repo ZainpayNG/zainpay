@@ -18,11 +18,10 @@ const textEmailColor = "#808080";
 const paymentCancelButtonColor = "#EAEEF3";
 const paymentTextColor = "#55586F";
 var formatter = NumberFormat('#,###,###');
-const fontFamily = 'Inter';
 const paymentFontFamily = 'Airbnb Cereal App';
 
 TextStyle blackTextStyle = TextStyle(
-    fontFamily: fontFamily,
+    fontFamily: paymentFontFamily,
     color: hexToColor(blackColor),
     fontWeight: FontWeight.w600,
     fontSize: 18
