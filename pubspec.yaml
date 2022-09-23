@@ -1,6 +1,6 @@
 name: zainpay
 description: A flutter package to implement zainpay on your flutter application.
-version: 0.1.11
+version: 0.1.12
 homepage: "https://github.com/itcglobal/zainpay"
 
 environment:
@@ -19,8 +19,6 @@ dependencies:
   flutter_inappwebview: ^5.4.3+7
   fluttertoast: ^8.0.9
   overlay_support: ^2.0.1
-  timer_count_down: ^2.2.1
-  flutter_countdown_timer: ^4.1.0
 
 dev_dependencies:
   flutter_test:

@@ -73,7 +73,6 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                       child: Text('Transaction Successful',
                           textAlign: TextAlign.center,
                           style: blackTextStyle.copyWith(
-                              fontFamily: paymentFontFamily,
                               color: hexToColor(blackColor),
                               fontSize: 16,
                               fontWeight: FontWeight.w700
@@ -89,7 +88,6 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                           text: TextSpan(
                               text: 'Payment of ',
                               style: blackTextStyle.copyWith(
-                                  fontFamily: paymentFontFamily,
                                   color: hexToColor(paymentTextColor),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400
@@ -98,7 +96,6 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                                 TextSpan(
                                   text: 'N${formatter.format(widget.request.amount)}',
                                   style: blackTextStyle.copyWith(
-                                      fontFamily: paymentFontFamily,
                                       color: hexToColor(paymentTextColor),
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500
@@ -107,7 +104,6 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                                 TextSpan(
                                     text: ' is Successful',
                                     style: blackTextStyle.copyWith(
-                                        fontFamily: paymentFontFamily,
                                         color: hexToColor(paymentTextColor),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400
@@ -135,7 +131,6 @@ class SuccessfulPaymentState extends State<SuccessfulPayment> {
                         'You will be redirected automatically, please wait',
                         textAlign: TextAlign.center,
                         style: blackTextStyle.copyWith(
-                            fontFamily: paymentFontFamily,
                             color: hexToColor(textGreyColor),
                             fontSize: 12,
                             fontWeight: FontWeight.w300

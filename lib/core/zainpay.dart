@@ -25,9 +25,9 @@ class Zainpay {
     required this.fullName,
     required this.mobileNumber,
     required this.zainboxCode,
+    required this.callBackUrl,
     required this.amount,
     required this.isTest,
-    required this.callBackUrl
   });
 
   /// Starts Standard Transaction

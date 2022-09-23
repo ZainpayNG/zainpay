@@ -5,7 +5,6 @@
 # Zainpay Flutter Package
 
 The Flutter library helps you create seamless payment experiences in your flutter mobile app.
-By connecting to our modal, you can start collecting payment in no time.
 
 ## Table of Contents
 

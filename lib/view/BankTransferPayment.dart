@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zainpay/models/request/create_va_request.dart';
 import 'package:zainpay/models/response/create_va_response.dart';
@@ -31,14 +30,12 @@ class BankTransferPaymentState extends State<BankTransferPayment>
   String? accountNumber = "", accountName = "", bankName = "";
   bool isLoading = false;
   bool generalLoading = true;
-  late CountdownTimerController controller;
-  int endTime = DateTime.now().millisecondsSinceEpoch + 7000 * 60;
 
-  Future<CreateVirtualAccountResponse?> createVirtualAccount(final CreateVirtualAccountRequest request) async =>
-      await request.createVirtualAccount(widget.request.publicKey, widget.request.isTest);
+  Future<CreateVirtualAccountResponse?> createVirtualAccount(final CreateVirtualAccountRequest request)
+  async => await request.createVirtualAccount(widget.request.publicKey, widget.request.isTest);
 
-  Future<VirtualAccountBalanceResponse?> virtualAccountBalance(final CreateVirtualAccountRequest request) async =>
-      await request.virtualAccountBalance(widget.request.publicKey, accountNumber, widget.request.isTest);
+  Future<VirtualAccountBalanceResponse?> virtualAccountBalance(final CreateVirtualAccountRequest request)
+  async => await request.virtualAccountBalance(widget.request.publicKey, accountNumber, widget.request.isTest);
 
   init() async => await createVirtualAccount(widget.request)
       .then((value) {
@@ -55,7 +52,8 @@ class BankTransferPaymentState extends State<BankTransferPayment>
   });
 
   checkVABalance() async {
-    await virtualAccountBalance(widget.request).then((value) async {
+    await virtualAccountBalance(widget.request)
+        .then((value) async {
       if(value != null && value.data != null) {
         if (value.data?.balanceAmount >= widget.request.amount) {
           PaymentResponse paymentResponse = PaymentResponse(
@@ -86,7 +84,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
   void initState() {
     super.initState();
     init();
-    controller = CountdownTimerController(endTime: endTime);
   }
 
   Future<void> _copyToClipboard(text) async =>
@@ -107,7 +104,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
 
     Text text = Text(accountNumber!,
         style: blackTextStyle.copyWith(
-            fontFamily: paymentFontFamily,
             color: hexToColor(blackColor),
             fontSize: 14,
             fontWeight: FontWeight.w400
@@ -135,14 +131,12 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                       children: [
                         Text(widget.request.email,
                           style: blackTextStyle.copyWith(
-                              fontFamily: paymentFontFamily,
                               fontSize: 13,
                               fontWeight: FontWeight.w400
                           ),),
                         const SizedBox(height: 4,),
                         Text('NGN ${formatter.format(widget.request.amount)}',
                           style: blackTextStyle.copyWith(
-                              fontFamily: paymentFontFamily,
                               fontSize: 14,
                               fontWeight: FontWeight.w400
                           ),),
@@ -161,7 +155,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                         onPressed: () => Navigator.pop(context),
                         child: Text('Cancel',
                             style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
                                 color: hexToColor(paymentTextColor),
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400
@@ -181,7 +174,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                 margin: const EdgeInsets.only(left: 16, top: 10, bottom: 12),
                 child: Text('Pay with Bank Transfer',
                   style: blackTextStyle.copyWith(
-                      fontFamily: paymentFontFamily,
                       color: hexToColor(blackColor),
                       fontSize: 16,
                       fontWeight: FontWeight.w500
@@ -204,7 +196,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                             children: [
                               Text('Make a bank transfer of ',
                                   style: blackTextStyle.copyWith(
-                                      fontFamily: paymentFontFamily,
                                       color: hexToColor(paymentTextColor),
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400
@@ -212,7 +203,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                               ),
                               Text('N${formatter.format(widget.request.amount.abs())}',
                                   style: blackTextStyle.copyWith(
-                                      fontFamily: paymentFontFamily,
                                       color: hexToColor(blackColor),
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500
@@ -222,7 +212,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                           ),
                           Text('to the account number below',
                               style: blackTextStyle.copyWith(
-                                  fontFamily: paymentFontFamily,
                                   color: hexToColor(paymentTextColor),
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400
@@ -249,7 +238,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                       children: [
                         Text('Bank',
                             style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
                                 color: hexToColor(paymentTextColor),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400
@@ -258,7 +246,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                         const Spacer(),
                         Text(bankName!,
                             style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
                                 color: hexToColor(blackColor),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400
@@ -280,7 +267,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                       children: [
                         Text('Account Number',
                             style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
                                 color: hexToColor(paymentTextColor),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400
@@ -309,7 +295,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                       children: [
                         Text('Account Name',
                             style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
                                 color: hexToColor(paymentTextColor),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400
@@ -318,7 +303,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                         const Spacer(),
                         Text(accountName!,
                             style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
                                 color: hexToColor(blackColor),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400
@@ -340,7 +324,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                       children: [
                         Text('Amount To Pay',
                             style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
                                 color: hexToColor(paymentTextColor),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400
@@ -349,7 +332,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                         const Spacer(),
                         Text('N${formatter.format((widget.request.amount).abs())}',
                             style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
                                 color: hexToColor(blackColor),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400
@@ -391,7 +373,6 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                           },
                           child: Text('Confirm Payment',
                               style: blackTextStyle.copyWith(
-                                  fontFamily: paymentFontFamily,
                                   color: Colors.white,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500
@@ -417,11 +398,10 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(FontAwesomeIcons.arrowLeft, size: 12, color: hexToColor(paymentBlueBackgroundColor),),
-                          const SizedBox(width: 7,),
+                          Icon(FontAwesomeIcons.arrowLeft, size: 12, color: hexToColor(paymentBlueBackgroundColor)),
+                          const SizedBox(width: 7),
                           Text('Cancel Transaction',
                               style: blackTextStyle.copyWith(
-                                  fontFamily: paymentFontFamily,
                                   color: hexToColor(paymentBlueBackgroundColor),
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400
@@ -432,16 +412,28 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                   ),
                 ),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(height: 20),
               Center(
-                child: Text('secured by zainpay',
+                child: RichText(
+                  text: TextSpan(text: 'secured by ',
                   style: blackTextStyle.copyWith(
                       color: hexToColor(paymentBlueBackgroundColor),
                       fontSize: 12,
-                      fontWeight: FontWeight.w400
+                      fontWeight: FontWeight.w300
                   ),
-                ),
-              ),
+                    children: [
+                      TextSpan(
+                        text: 'zainpay',
+                        style: blackTextStyle.copyWith(
+                          color: hexToColor(paymentBlueBackgroundColor),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500
+                        )
+                      )
+                    ]
+                  )
+                )
+              )
             ],
           ),
         ),

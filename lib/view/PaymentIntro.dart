@@ -35,7 +35,9 @@ class PaymentIntroState extends State<PaymentIntro> {
 
   init() async => await startTransaction(widget.standardRequest)
       .then((value) {
-    setState(() => sessionId = value?.sessionId);
+    if(value != null) {
+      setState(() => sessionId = value.sessionId);
+    }
   });
 
   @override
@@ -62,14 +64,12 @@ class PaymentIntroState extends State<PaymentIntro> {
                         children: [
                           Text(widget.standardRequest.email,
                             style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400
                             ),),
                           const SizedBox(height: 4,),
                           Text('NGN ${formatter.format(double.parse(widget.standardRequest.amount))}',
                             style: blackTextStyle.copyWith(
-                                fontFamily: paymentFontFamily,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400
                             ),),
@@ -88,7 +88,6 @@ class PaymentIntroState extends State<PaymentIntro> {
                           onPressed: () => Navigator.pop(widget.context),
                           child: Text('Cancel',
                               style: blackTextStyle.copyWith(
-                                  fontFamily: paymentFontFamily,
                                   color: hexToColor(paymentTextColor),
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400

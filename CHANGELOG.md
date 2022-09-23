@@ -9,4 +9,8 @@
 ## [0.1.11] - Release August, 2022
 
 * Standard request parameter updated to include test and live urls.
-* UI and Font fixes.
+* UI and font fixes.
+
+## [0.1.12] - Release August, 2022
+
+* UI and font fixes.

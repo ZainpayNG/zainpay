@@ -21,7 +21,7 @@ class ZainpayViewUtils {
             "You will be charged a total of $transactionCurrency "
                 "$amount. Do you wish to continue? ",
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: blackTextStyle.copyWith(
               color: hexToColor(paymentBlueBackgroundColor),
               fontSize: 18,
               letterSpacing: 1.2,
@@ -33,7 +33,7 @@ class ZainpayViewUtils {
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
               "CANCEL",
-              style: TextStyle(
+              style: blackTextStyle.copyWith(
                 color: hexToColor(redColor),
                 fontSize: 12,
                 letterSpacing: 1,
@@ -44,7 +44,7 @@ class ZainpayViewUtils {
             onPressed: () => onContinuePressed(),
             child: Text(
               "CONTINUE",
-              style: TextStyle(
+              style: blackTextStyle.copyWith(
                 color: hexToColor(paymentBlueBackgroundColor),
                 fontSize: 12,
                 letterSpacing: 1,
@@ -65,11 +65,10 @@ class ZainpayViewUtils {
       final TextStyle? textStyle,
       final Color? dialogBackgroundColor) {
     final Widget indicator = progressIndicator
-        ?? const CircularProgressIndicator(
-            backgroundColor: Colors.orangeAccent);
+        ?? const CircularProgressIndicator(backgroundColor: Colors.orangeAccent);
 
     final style = textStyle
-        ?? const TextStyle(color: Colors.black);
+        ?? blackTextStyle.copyWith(color: Colors.black);
 
     return showDialog(
         context: context,

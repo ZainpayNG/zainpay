@@ -41,7 +41,7 @@ class StandardRequest {
     "zainboxCode": zainboxCode,
     "emailAddress": email,
     "callBackUrl": callBackUrl,
-    "isTest": isTest,
+    "isTest": isTest
   };
 
   /// Executes network call to initiate transactions

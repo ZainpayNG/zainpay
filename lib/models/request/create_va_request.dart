@@ -43,7 +43,7 @@ class CreateVirtualAccountRequest {
     "address": "BetaStack",
     "title": "Mr",
     "state": "Kano",
-    "zainboxCode": zainboxCode,
+    "zainboxCode": zainboxCode
   };
 
   /// Executes network call to initiate transactions

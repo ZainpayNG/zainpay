@@ -16,7 +16,7 @@ class NavigationController {
     try {
       final InitPaymentResponse? initPaymentResponse =
       await request.initializePayment(request.publicKey);
-      if (initPaymentResponse?.status == "Success") {
+      if (initPaymentResponse?.status == "200 OK") {
       openBrowser(initPaymentResponse?.data ?? "", request.callBackUrl);
       }
     } catch (error) {
@@ -25,9 +25,7 @@ class NavigationController {
   }
 
   /// Opens browser with URL returned from startTransaction()
-  openBrowser(
-      final String url, final String redirectUrl,
-      [final bool isTestMode = false]) async {
+  openBrowser(final String url, final String redirectUrl, [final bool isTestMode = false]) async {
     final ZainpayInAppBrowser browser = ZainpayInAppBrowser(callBack: _callBack);
 
     var options = InAppBrowserClassOptions(
