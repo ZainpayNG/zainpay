@@ -11,6 +11,7 @@
 * Standard request parameter updated to include test and live urls.
 * UI and font fixes.
 
-## [0.1.12] - Release August, 2022
+## [0.1.12] - Release September, 2022
 
 * UI and font fixes.
+* response code fix.
