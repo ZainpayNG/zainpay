@@ -48,7 +48,7 @@ class PaymentIntroState extends State<PaymentIntro> {
           child: sessionId == null ? Container(
             margin: const EdgeInsets.only(top: 150, left: 150),
             child: CircularProgressIndicator(
-              strokeWidth: .5,
+              strokeWidth: 1,
               color: hexToColor(paymentBlueBackgroundColor),
             ),
           ) : Container(
@@ -171,11 +171,9 @@ class PaymentIntroState extends State<PaymentIntro> {
                   onTap: () async {
                     CreateVirtualAccountRequest createVARequest = CreateVirtualAccountRequest(
                         publicKey: widget.standardRequest.publicKey,
-                        transactionRef: widget.standardRequest.transactionRef,
                         email: widget.standardRequest.email,
                         mobileNumber: widget.standardRequest.mobileNumber,
                         zainboxCode: widget.standardRequest.zainboxCode,
-                        amount: double.parse(widget.standardRequest.amount),
                         fullName: widget.standardRequest.fullName,
                         isTest: widget.standardRequest.isTest
                     );
@@ -183,6 +181,7 @@ class PaymentIntroState extends State<PaymentIntro> {
                       MaterialPageRoute(
                         builder: (BuildContext context) => BankTransferPayment(
                           context: context,
+                          amount: double.parse(widget.standardRequest.amount),
                           request: createVARequest,
                         ),
                       ),

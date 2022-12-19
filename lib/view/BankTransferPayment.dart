@@ -12,11 +12,13 @@ import 'SuccessfulPayment.dart';
 class BankTransferPayment extends StatefulWidget {
 
   final CreateVirtualAccountRequest request;
+  final double amount;
   final BuildContext context;
 
   const BankTransferPayment({
     Key? key,
     required this.request,
+    required this.amount,
     required this.context
   }) : super(key: key);
 
@@ -32,7 +34,7 @@ class BankTransferPaymentState extends State<BankTransferPayment>
   bool generalLoading = true;
 
   Future<CreateVirtualAccountResponse?> createVirtualAccount(final CreateVirtualAccountRequest request)
-  async => await request.createVirtualAccount(widget.request.publicKey, widget.request.isTest);
+  async => await request.createVirtualAccount();
 
   Future<VirtualAccountBalanceResponse?> virtualAccountBalance(final CreateVirtualAccountRequest request)
   async => await request.virtualAccountBalance(widget.request.publicKey, accountNumber, widget.request.isTest);
@@ -42,9 +44,9 @@ class BankTransferPaymentState extends State<BankTransferPayment>
     if(value != null) {
       setState(() {
         generalLoading = false;
-        accountNumber = value.data?.accountNumber;
-        accountName = value.data?.accountName;
-        bankName = value.data?.bankName;
+        accountNumber = value.accountNumber;
+        accountName = value.accountName;
+        bankName = value.bankName;
       });
     }else {
       Navigator.pop(context);
@@ -55,7 +57,7 @@ class BankTransferPaymentState extends State<BankTransferPayment>
     await virtualAccountBalance(widget.request)
         .then((value) async {
       if(value != null && value.data != null) {
-        if (value.data?.balanceAmount >= widget.request.amount) {
+        if (value.data?.balanceAmount >= widget.amount) {
           PaymentResponse paymentResponse = PaymentResponse(
               code: value.code,
               description: value.description,
@@ -135,7 +137,7 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                               fontWeight: FontWeight.w400
                           ),),
                         const SizedBox(height: 4,),
-                        Text('NGN ${formatter.format(widget.request.amount)}',
+                        Text('NGN ${formatter.format(widget.amount)}',
                           style: blackTextStyle.copyWith(
                               fontSize: 14,
                               fontWeight: FontWeight.w400
@@ -201,7 +203,7 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                                       fontWeight: FontWeight.w400
                                   )
                               ),
-                              Text('N${formatter.format(widget.request.amount.abs())}',
+                              Text('N${formatter.format(widget.amount.abs())}',
                                   style: blackTextStyle.copyWith(
                                       color: hexToColor(blackColor),
                                       fontSize: 12,
@@ -255,11 +257,11 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                     ),
                   ) ,
                   Divider(
-                    height: 1,
-                    thickness: 1,
-                    indent: 16,
-                    endIndent: 16,
-                    color: hexToColor(dividerGreyColor),
+                      height: 1,
+                      thickness: 1,
+                      indent: 16,
+                      endIndent: 16,
+                      color: hexToColor(dividerGreyColor)
                   ),
                   Container (
                     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -283,11 +285,11 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                     ),
                   ),
                   Divider(
-                    height: 1,
-                    thickness: 1,
-                    indent: 16,
-                    endIndent: 16,
-                    color: hexToColor(dividerGreyColor),
+                      height: 1,
+                      thickness: 1,
+                      indent: 16,
+                      endIndent: 16,
+                      color: hexToColor(dividerGreyColor)
                   ),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -330,7 +332,7 @@ class BankTransferPaymentState extends State<BankTransferPayment>
                             )
                         ),
                         const Spacer(),
-                        Text('N${formatter.format((widget.request.amount).abs())}',
+                        Text('N${formatter.format((widget.amount).abs())}',
                             style: blackTextStyle.copyWith(
                                 color: hexToColor(blackColor),
                                 fontSize: 14,
@@ -414,25 +416,25 @@ class BankTransferPaymentState extends State<BankTransferPayment>
               ),
               const SizedBox(height: 20),
               Center(
-                child: RichText(
-                  text: TextSpan(text: 'secured by ',
-                  style: blackTextStyle.copyWith(
-                      color: hexToColor(paymentBlueBackgroundColor),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300
-                  ),
-                    children: [
-                      TextSpan(
-                        text: 'zainpay',
-                        style: blackTextStyle.copyWith(
-                          color: hexToColor(paymentBlueBackgroundColor),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500
-                        )
+                  child: RichText(
+                      text: TextSpan(text: 'secured by ',
+                          style: blackTextStyle.copyWith(
+                              color: hexToColor(paymentBlueBackgroundColor),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300
+                          ),
+                          children: [
+                            TextSpan(
+                                text: 'zainpay',
+                                style: blackTextStyle.copyWith(
+                                    color: hexToColor(paymentBlueBackgroundColor),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500
+                                )
+                            )
+                          ]
                       )
-                    ]
                   )
-                )
               )
             ],
           ),

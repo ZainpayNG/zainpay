@@ -1,19 +1,24 @@
-class VirtualAccountBalanceResponse {
+class ZainboxVirtualAccountsBalancesResponse {
   String? code;
-  Data? data;
+  List<Data>? data;
   String? description;
   String? status;
 
-  VirtualAccountBalanceResponse({
+  ZainboxVirtualAccountsBalancesResponse({
     this.code,
     this.data,
     this.description,
     this.status
   });
 
-  VirtualAccountBalanceResponse.fromJson(Map<String, dynamic> json) {
+  ZainboxVirtualAccountsBalancesResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(Data.fromJson(v));
+      });
+    }
     description = json['description'];
     status = json['status'];
   }
@@ -22,7 +27,7 @@ class VirtualAccountBalanceResponse {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['code'] = code;
     if (this.data != null) {
-      data['data'] = this.data!.toJson();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['description'] = description;
     data['status'] = status;
@@ -33,15 +38,14 @@ class VirtualAccountBalanceResponse {
 class Data {
   String? accountName;
   String? accountNumber;
-  dynamic balanceAmount;
+  int? balanceAmount;
   String? transactionDate;
 
-  Data({
-    this.accountName,
-    this.accountNumber,
-    required this.balanceAmount,
-    this.transactionDate
-  });
+  Data(
+      {this.accountName,
+        this.accountNumber,
+        this.balanceAmount,
+        this.transactionDate});
 
   Data.fromJson(Map<String, dynamic> json) {
     accountName = json['accountName'];

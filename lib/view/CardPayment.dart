@@ -26,12 +26,10 @@ class CardPaymentState extends State<CardPayment>
     implements TransactionCallBack {
 
   final _navigatorKey = GlobalKey<NavigatorState>();
-  bool _isDisabled = false;
   late NavigationController controller;
 
   @override
   void initState() {
-    _isDisabled = false;
     controller = NavigationController(this);
     super.initState();
     _handlePayment();

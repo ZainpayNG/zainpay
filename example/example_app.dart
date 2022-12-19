@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:zainpay/core/zainpay.dart';
-import 'package:zainpay/models/response/payment_response.dart';
 
 class TestApp extends StatefulWidget {
   const TestApp({Key? key}) : super(key: key);
@@ -141,24 +140,17 @@ class _TestAppState extends State<TestApp> {
 
     final Zainpay zainpay = Zainpay(
         context: context,
-        fullName: fullNameController.text,
-        email: emailController.text,
         publicKey: getPublicKey(),
-        callBackUrl: "https://zainpay.ng/success",
-        mobileNumber: phoneNumberController.text,
-        zainboxCode: getZainBoxCode(),
-        transactionRef: getRandomString(12),
-        amount: amountController.text,
         isTest: true
     );
 
-    final PaymentResponse? response = await zainpay.charge();
-
-    if (response != null) {
-      debugPrint("${response.toJson()}");
-    } else {
-      debugPrint("No Response");
-    }
+    // final PaymentResponse? response = await zainpay.charge();
+    //
+    // if (response != null) {
+    //   debugPrint("${response.toJson()}");
+    // } else {
+    //   debugPrint("No Response");
+    // }
   }
 
 }

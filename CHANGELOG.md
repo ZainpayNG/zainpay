@@ -15,3 +15,13 @@
 
 * UI and font fixes.
 * response code fix.
+
+## [0.1.13 - 0.1.17] - Release October, 2022
+
+* response code fix.
+
+## [0.1.18 - 0.1.19] - Release December, 2022
+
+* response code fix.
+* new parameters for initializing zainpay
+* new features when integrating with zainpay, such as createAccount, get virtual account balance, view transaction status, disabling virtual account etc.

@@ -20,7 +20,7 @@ The Flutter library helps you create seamless payment experiences in your flutte
 
 ## Installation
 
-1. Add the dependency to your project. In your `pubspec.yaml`, file add: `zainpay: 0.1.11`.
+1. Add the dependency to your project. In your `pubspec.yaml`, file add: `zainpay: 0.1.19`.
 2. Run `flutter pub get`.
 
 ## Usage
@@ -30,47 +30,190 @@ The Flutter library helps you create seamless payment experiences in your flutte
 To create an instance, you should call the Zainpay constructor. This constructor accepts a mandatory instance of the following:
 
 -  `context`
--  `fullName`
--  `email`
 -  `publicKey`
--  `callBackUrl`
--  `mobileNumber`
--  `zainboxCode`
--  `transactionRef`
--  `amount`
 -  `isTest`
 
-It returns an instance of Zainpay which we then call the async method `.charge()` on.
-
-    _handlePaymentInitialization() async {
+It returns an instance of Zainpay which we then call the async methods on for every feature requested.
 
         final Zainpay zainpay = Zainpay(
             context: context,
-            fullName: fullNameController.text,
-            email: emailController.text,
             publicKey: getPublicKey(),
-            callBackUrl: "https://localhost:8080/success",
-            mobileNumber: phoneController.text,
-            zainboxCode: getZainBoxCode(),
-            transactionRef: getRandomString(12),
-            amount: amountController.text,
             isTest: true
         );
 
-        final PaymentResponse? response = await zainpay.charge();
-
-        if (response != null) {
-            debugPrint("${response.toJson()}");
-        } else {
-            debugPrint("No Response");
-        }
-    }
-
 ### Handling the response
 
-Calling the `.charge()` method returns a Future of `PaymentResponse?` which we await for the actual response as seen above.
+Calling the `createZainbox(name, tags, callbackUrl, email)` method returns a Future of `CreateZainboxResponse?` which we await for the actual response as seen above.
 
-    final PaymentResponse? response = await zainpay.charge();
+    final CreateZainboxResponse? response = await zainpay.createZainbox(name, tags, callbackUrl, email);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `getAllZainboxes()` method returns a Future of `GetAllZainboxesResponse?` which we await for the actual response as seen above.
+
+    final GetAllZainboxesResponse? response = await zainpay.getAllZainboxes();
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `getAllZainboxAccounts(zainboxCodeName)` method returns a Future of `ZainboxAccountResponse?` which we await for the actual response as seen above.
+
+    final ZainboxAccountResponse? response = await zainpay.getAllZainboxAccounts(zainboxCodeName);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `getVirtualAccountBalance(accountNumber)` method returns a Future of `VirtualAccountBalanceResponse?` which we await for the actual response as seen above.
+
+    final VirtualAccountBalanceResponse? response = await zainpay.getVirtualAccountBalance(accountNumber);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `getZainboxVirtualAccountBalance(zainboxCode)` method returns a Future of `ZainboxVirtualAccountsBalancesResponse?` which we await for the actual response as seen above.
+
+    final ZainboxVirtualAccountsBalancesResponse? response = await zainpay.getZainboxVirtualAccountBalance(zainboxCode);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `getVirtualAccountTransactions(accountNumber)` method returns a Future of `ZainboxVirtualAccountsBalancesResponse?` which we await for the actual response as seen above.
+
+    final VirtualAccountTransactionsResponse? response = await zainpay.getVirtualAccountTransactions(accountNumber);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `getBankList()` method returns a Future of `BankListResponse?` which we await for the actual response as seen above.
+
+    final BankListResponse? response = await zainpay.getBankList();
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `getAccountName(bankCode, accountNumber)` method returns a Future of `AccountNameResponse?` which we await for the actual response as seen above.
+
+    final AccountNameResponse? response = await zainpay.getAccountName(bankCode, accountNumber);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `verifyTransfer(txnRef)` method returns a Future of `TransferVerificationResponse?` which we await for the actual response as seen above.
+
+    final TransferVerificationResponse? response = await zainpay.verifyTransfer(txnRef);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `verifyDeposit(txnRef)` method returns a Future of `DepositVerificationResponse?` which we await for the actual response as seen above.
+
+    final DepositVerificationResponse? response = await zainpay.verifyDeposit(txnRef);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `getZainboxTransactionHistory(zainboxCode)` method returns a Future of `ZainboxTransactionHistoryResponse?` which we await for the actual response as seen above.
+
+    final ZainboxTransactionHistoryResponse? response = await zainpay.getZainboxTransactionHistory(zainboxCode);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `getZainboxCollectionSummaryByDate(zainboxCode, {dateFrom, dateTo})` method returns a Future of `ZainboxCollectionSummaryByDateResponse?` which we await for the actual response as seen above.
+
+    final ZainboxCollectionSummaryByDateResponse? response = await zainpay.getZainboxCollectionSummaryByDate(zainboxCode, {dateFrom, dateTo});
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+#### Note:
+dateTo and DateFrom are optional
+
+Calling the `createVirtualAccount(fullName, email, mobileNumber, zainboxCode)` method returns a Future of `CreateVirtualAccountResponse?` which we await for the actual response as seen above.
+
+    final CreateVirtualAccountResponse? response = await zainpay.createVirtualAccount(fullName, email, mobileNumber, zainboxCode);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `createSettlement(name, scheduleType, schedulePeriod, settlementList, status, zainboxCode)` method returns a Future of `CreateSettlementResponse?` which we await for the actual response as seen above.
+
+    final CreateSettlementResponse? response = await zainpay.createSettlement(name, scheduleType, schedulePeriod, settlementList, status, zainboxCode);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `transferFund(destinationAccountNumber, destinationBankCode, amount, txnRef, narration, sourceAccountNumber, sourceBankCode, zainboxCode)` method returns a Future of `FundTransferResponse?` which we await for the actual response as seen above.
+
+    final FundTransferResponse? response = await zainpay.transferFund(destinationAccountNumber, destinationBankCode, amount, txnRef, narration, sourceAccountNumber, sourceBankCode, zainboxCode);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `updateVirtualAccountStatus(status, accountNumber, zainboxCode)` method returns a Future of `UpdateVirtualAccountStatusResponse?` which we await for the actual response as seen above.
+
+    final UpdateVirtualAccountStatusResponse? response = await zainpay.updateVirtualAccountStatus(status, accountNumber, zainboxCode);
 
     if (response != null) {
         showLoading(response.status!);
@@ -81,8 +224,8 @@ Calling the `.charge()` method returns a Future of `PaymentResponse?` which we a
 
 #### Note:
 
-1. `PaymentResponse` can be null if a user cancels the transaction by pressing back.
-2. You need to confirm the transaction is successful. Ensure that the txRef, amount, and status are correct and successful. 
+1. All requests can be null if a user cancels the transaction by pressing back.
+2. You need to confirm the transaction is successful. Ensure that the txRef, amount, and status are correct and successful.
 3. Be sure to verify the transaction details before providing value.
 
 ## License

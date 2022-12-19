@@ -1,26 +1,24 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:zainpay/models/response/update_va_status_response.dart';
 
 import '../../utils.dart';
-import '../response/create_va_response.dart';
 import '../response/va_balance_response.dart';
 
-class CreateVirtualAccountRequest {
+class UpdateVirtualAccountStatusRequest {
 
-  final String fullName;
-  final String publicKey;
-  final String email;
-  final String mobileNumber;
   final String zainboxCode;
+  final String accountNumber;
+  final String status;
+  final String publicKey;
   final bool isTest;
 
-  CreateVirtualAccountRequest({
-    required this.publicKey,
-    required this.fullName,
-    required this.email,
-    required this.mobileNumber,
+  UpdateVirtualAccountStatusRequest({
+    required this.accountNumber,
+    required this.status,
     required this.zainboxCode,
+    required this.publicKey,
     required this.isTest
   });
 
@@ -29,27 +27,19 @@ class CreateVirtualAccountRequest {
 
   /// Converts this instance to json
   Map<String, dynamic> toJson() => {
-    "bankType": "wemaBank",
-    "firstName": fullName.split(' ')[0],
-    "surname": fullName.split(' ')[1],
-    "email": email,
-    "mobileNumber": mobileNumber,
-    "dob": "12-08-2021",
-    "gender": "M",
-    "address": "BetaStack",
-    "title": "Mr",
-    "state": "Kano",
-    "zainboxCode": zainboxCode
+    "zainboxCode": zainboxCode,
+    "accountNumber": accountNumber,
+    "status": status
   };
 
   /// Executes network call to initiate transactions
-  Future<CreateVirtualAccountResponse?> createVirtualAccount() async {
+  Future<UpdateVirtualAccountStatusResponse?> updateVirtualAccountStatus() async {
 
-    CreateVirtualAccountResponse? createVirtualAccountResponse = CreateVirtualAccountResponse();
+    UpdateVirtualAccountStatusResponse? updateVirtualAccountStatusResponse = UpdateVirtualAccountStatusResponse();
 
-    final url = "${Utils.getBaseUrl(isTest)}/${Utils.createVirtualAccountUrl}";
+    final url = "${Utils.getBaseUrl(isTest)}/${Utils.updateVirtualAccountStatusUrl}";
 
-    final response = await http.post(Uri.parse(url),
+    final response = await http.patch(Uri.parse(url),
         headers: {
           "Authorization" : "Bearer $publicKey",
           "Content-Type" : "application/json"
@@ -58,13 +48,13 @@ class CreateVirtualAccountRequest {
     );
 
     final responseBody = jsonDecode(response.body);
-    createVirtualAccountResponse = CreateVirtualAccountResponse.fromJson(responseBody);
+    updateVirtualAccountStatusResponse = UpdateVirtualAccountStatusResponse.fromJson(responseBody);
 
-    return createVirtualAccountResponse;
+    return updateVirtualAccountStatusResponse;
   }
 
   /// Executes network call to initiate transactions
-  Future<VirtualAccountBalanceResponse?> virtualAccountBalance(publicKey, accountNumber, isTest) async {
+  Future<VirtualAccountBalanceResponse?> virtualAccountBalance(accountNumber) async {
 
     VirtualAccountBalanceResponse? virtualAccountBalanceResponse = VirtualAccountBalanceResponse();
 

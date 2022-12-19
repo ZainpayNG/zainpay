@@ -59,12 +59,8 @@ class StandardRequest {
         body: toString()
     );
 
-    if(response.statusCode == 200 && jsonDecode(response.body)["code"] == "00"){
-      final responseBody = jsonDecode(response.body);
-      initPaymentResponse = InitPaymentResponse.fromJson(responseBody);
-    }else {
-      initPaymentResponse = null;
-    }
+    final responseBody = jsonDecode(response.body);
+    initPaymentResponse = InitPaymentResponse.fromJson(responseBody);
 
     return initPaymentResponse;
   }
