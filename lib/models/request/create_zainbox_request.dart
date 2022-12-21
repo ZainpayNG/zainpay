@@ -13,6 +13,7 @@ class CreateZainboxRequest {
   final String tags;
   final String callbackUrl;
   final String email;
+  final String publicKey;
   final bool isTest;
 
   CreateZainboxRequest({
@@ -20,6 +21,7 @@ class CreateZainboxRequest {
     required this.tags,
     required this.callbackUrl,
     required this.email,
+    required this.publicKey,
     required this.isTest
   });
 
@@ -35,7 +37,7 @@ class CreateZainboxRequest {
   };
 
   /// Executes network call to initiate transactions
-  Future<CreateZainboxResponse?> createZainbox(publicKey) async {
+  Future<CreateZainboxResponse?> createZainbox() async {
 
     CreateZainboxResponse? createZainboxResponse = CreateZainboxResponse();
 

@@ -5,8 +5,6 @@ class Utils {
   static const sandboxBaseURL = "https://sandbox.zainpay.ng";
   static const liveBaseURL = "https://api.zainpay.ng";
 
-  static const cardBaseURL = "zainbox/card";
-  static const initializePaymentUrl = "$cardBaseURL/initialize/payment";
   static const createZainboxUrl = "zainbox/create/request";
   static const getAllZainboxesUrl = "zainbox/list";
   static const getAllZainboxAccountsUrl = "zainbox/virtual-accounts";
@@ -19,6 +17,7 @@ class Utils {
   static const accountNameUrl = "zainbox/bank/name-enquiry";
   static const transferUrl = "zainbox/bank/transfer";
   static const createSettlement = "zainbox/settlement";
+  static const initializePayment = "zainbox/card/initialize/payment";
   static const virtualAccountTransactionsUrl = "virtual-account/wallet/transactions";
   static const transactionVerificationUrl = "virtual-account/wallet/transaction/verify";
   static const depositVerificationUrl = "virtual-account/wallet/deposit/verify";

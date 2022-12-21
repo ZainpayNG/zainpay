@@ -8,11 +8,12 @@ import '../../utils.dart';
 class GetAllZainboxesRequest {
 
   final bool isTest;
+  final String publicKey;
 
-  GetAllZainboxesRequest({required this.isTest});
+  GetAllZainboxesRequest({required this.isTest, required this.publicKey});
 
   /// Executes network call to initiate transactions
-  Future<GetAllZainboxesResponse?> getAllZainboxes(publicKey) async {
+  Future<GetAllZainboxesResponse?> getAllZainboxes() async {
 
     GetAllZainboxesResponse? getAllZainboxesResponse = GetAllZainboxesResponse();
 

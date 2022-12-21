@@ -20,7 +20,7 @@ The Flutter library helps you create seamless payment experiences in your flutte
 
 ## Installation
 
-1. Add the dependency to your project. In your `pubspec.yaml`, file add: `zainpay: 0.1.19`.
+1. Add the dependency to your project. In your `pubspec.yaml`, file add: `zainpay: 0.1.20`.
 2. Run `flutter pub get`.
 
 ## Usage
@@ -221,6 +221,19 @@ Calling the `updateVirtualAccountStatus(status, accountNumber, zainboxCode)` met
     } else {
         showLoading("No Response!");
     }
+
+Calling the `initializeCardPayment(amount, txnRef, mobileNumber, zainboxCode, email, callbackUrl)` method returns a Future of `CardPaymentResponse?` which we await for the actual response as seen above.
+The `amount` parameter should be in kobo decimalisation, txnRef (unique per each request)
+
+    final CardPaymentResponse? response = await zainpay.initializeCardPayment(amount, txnRef, mobileNumber, zainboxCode, email, callbackUrl);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
 
 #### Note:
 

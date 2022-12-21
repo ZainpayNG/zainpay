@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zainpay/models/request/initialize_card_payment_request.dart';
+import 'package:zainpay/models/response/initialize_card_payment_response.dart';
 import '/models/request/create_settlement_request.dart';
 import '/models/request/create_va_request.dart';
 import '/models/request/create_zainbox_request.dart';
@@ -51,16 +53,36 @@ class Zainpay {
         tags: tags,
         callbackUrl: callbackUrl,
         email: email,
+        publicKey: publicKey,
         isTest: isTest
     );
 
-    return await createZainboxRequest.createZainbox(publicKey);
+    return await createZainboxRequest.createZainbox();
+  }
+
+  Future<CardPaymentResponse?> initializeCardPayment(amount, txnRef, mobileNumber,
+      zainboxCode, email, callbackUrl) async {
+    CardPaymentRequest createZainboxRequest = CardPaymentRequest(
+        txnRef: txnRef,
+        amount: amount,
+        mobileNumber: mobileNumber,
+        zainboxCode: zainboxCode,
+        emailAddress: email,
+        callBackUrl: callbackUrl,
+        publicKey: publicKey,
+        isTest: isTest
+    );
+
+    return await createZainboxRequest.initializeCardPayment();
   }
 
   Future<GetAllZainboxesResponse?> getAllZainboxes() async {
-    GetAllZainboxesRequest getAllZainboxesRequest = GetAllZainboxesRequest(isTest: isTest);
+    GetAllZainboxesRequest getAllZainboxesRequest = GetAllZainboxesRequest(
+        isTest: isTest,
+      publicKey: publicKey
+    );
 
-    return await getAllZainboxesRequest.getAllZainboxes(publicKey);
+    return await getAllZainboxesRequest.getAllZainboxes();
   }
 
   Future<ZainboxAccountResponse?> getAllZainboxAccounts(zainboxCodeName) async {
@@ -168,9 +190,9 @@ class Zainpay {
     CreateVirtualAccountRequest createVirtualAccountRequest = CreateVirtualAccountRequest(
         email: email,
         mobileNumber: mobileNumber,
-        publicKey: publicKey,
         zainboxCode: zainboxCode,
         fullName: fullName,
+        publicKey: publicKey,
         isTest: isTest
     );
 
@@ -184,9 +206,9 @@ class Zainpay {
         zainboxCode: zainboxCode,
         scheduleType: scheduleType,
         schedulePeriod: schedulePeriod,
-        publicKey: publicKey,
         settlementAccountList: settlementList,
         status: status,
+        publicKey: publicKey,
         isTest: isTest
     );
 
@@ -203,8 +225,8 @@ class Zainpay {
         sourceBankCode: sourceBankCode,
         zainboxCode: zainboxCode,
         txnRef: txnRef,
-        publicKey: publicKey,
         narration: narration,
+        publicKey: publicKey,
         isTest: isTest
     );
 
@@ -215,9 +237,9 @@ class Zainpay {
       accountNumber, zainboxCode) async {
     UpdateVirtualAccountStatusRequest updateVirtualAccountStatusRequest = UpdateVirtualAccountStatusRequest(
         accountNumber: accountNumber,
-        publicKey: publicKey,
         status: status,
         zainboxCode: zainboxCode,
+        publicKey: publicKey,
         isTest: isTest
     );
 

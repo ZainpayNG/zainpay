@@ -20,8 +20,8 @@
 
 * response code fix.
 
-## [0.1.18 - 0.1.19] - Release December, 2022
+## [0.1.18 - 0.1.20] - Release December, 2022
 
 * response code fix.
 * new parameters for initializing zainpay
-* new features when integrating with zainpay, such as createAccount, get virtual account balance, view transaction status, disabling virtual account etc.
+* new features when integrating with zainpay, such as createAccount, get virtual account balance, view transaction status, disabling virtual account, card payment etc

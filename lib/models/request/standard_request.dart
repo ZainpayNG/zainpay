@@ -49,7 +49,7 @@ class StandardRequest {
 
     InitPaymentResponse? initPaymentResponse = InitPaymentResponse();
 
-    final url = "${Utils.getBaseUrl(isTest)}/${Utils.initializePaymentUrl}";
+    final url = "${Utils.getBaseUrl(isTest)}/${Utils.initializePayment}";
 
     final response = await http.post(Uri.parse(url),
         headers: {
