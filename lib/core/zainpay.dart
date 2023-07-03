@@ -60,8 +60,8 @@ class Zainpay {
     return await createZainboxRequest.createZainbox();
   }
 
-  Future<CardPaymentResponse?> initializeCardPayment(amount, txnRef, mobileNumber,
-      zainboxCode, email, callbackUrl) async {
+  Future<CardPaymentResponse?> initializeCardPayment({amount, txnRef, mobileNumber,
+      zainboxCode, email, callbackUrl}) async {
     CardPaymentRequest createZainboxRequest = CardPaymentRequest(
         txnRef: txnRef,
         amount: amount,
@@ -85,7 +85,7 @@ class Zainpay {
     return await getAllZainboxesRequest.getAllZainboxes();
   }
 
-  Future<ZainboxAccountResponse?> getAllZainboxAccounts(zainboxCodeName) async {
+  Future<ZainboxAccountResponse?> getAllZainboxAccounts({zainboxCodeName}) async {
     GetAllZainboxAccountsRequest getAllZainboxAccountsRequest = GetAllZainboxAccountsRequest(
         zainboxCodeName: zainboxCodeName,
         publicKey: publicKey,
@@ -95,7 +95,7 @@ class Zainpay {
     return getAllZainboxAccountsRequest.getAllZainboxAccounts();
   }
 
-  Future<VirtualAccountBalanceResponse?> getVirtualAccountBalance(accountNumber) async {
+  Future<VirtualAccountBalanceResponse?> getVirtualAccountBalance({accountNumber}) async {
     GetVirtualAccountBalanceRequest getVirtualAccountBalanceRequest = GetVirtualAccountBalanceRequest(
         accountNumber: accountNumber,
         publicKey: publicKey,
@@ -105,7 +105,7 @@ class Zainpay {
     return getVirtualAccountBalanceRequest.getVirtualAccountBalance();
   }
 
-  Future<ZainboxVirtualAccountsBalancesResponse?> getZainboxVirtualAccountBalance(zainboxCode) async {
+  Future<ZainboxVirtualAccountsBalancesResponse?> getZainboxVirtualAccountBalance({zainboxCode}) async {
     GetZainboxVirtualAccountsBalancesRequest getZainboxVirtualAccountsBalancesRequest = GetZainboxVirtualAccountsBalancesRequest(
         zainboxCode: zainboxCode,
         publicKey: publicKey,
@@ -115,10 +115,11 @@ class Zainpay {
     return getZainboxVirtualAccountsBalancesRequest.getZainboxVirtualAccountsBalances();
   }
 
-  Future<VirtualAccountTransactionsResponse?> getVirtualAccountTransactions(accountNumber) async {
+  Future<VirtualAccountTransactionsResponse?> getVirtualAccountTransactions({accountNumber, int? count}) async {
     GetVirtualAccountTransactionsRequest getVirtualAccountTransactionsRequest = GetVirtualAccountTransactionsRequest(
         accountNumber: accountNumber,
         publicKey: publicKey,
+        count: 100, // optional default at 20
         isTest: isTest
     );
 
@@ -134,7 +135,7 @@ class Zainpay {
     return getBankListRequest.getBankListRequest();
   }
 
-  Future<AccountNameResponse?> getAccountName(bankCode, accountNumber) async {
+  Future<AccountNameResponse?> getAccountName({bankCode, accountNumber}) async {
     AccountNameRequest accountNameRequest = AccountNameRequest(
         accountNumber: accountNumber,
         bankCode: bankCode,
@@ -145,7 +146,7 @@ class Zainpay {
     return accountNameRequest.getAccountName();
   }
 
-  Future<TransferVerificationResponse?> verifyTransfer(txnRef) async {
+  Future<TransferVerificationResponse?> verifyTransfer({txnRef}) async {
     TransferVerificationRequest transferVerificationRequest = TransferVerificationRequest(
         txnRef: txnRef,
         publicKey: publicKey,
@@ -155,7 +156,7 @@ class Zainpay {
     return transferVerificationRequest.verifyTransfer();
   }
 
-  Future<DepositVerificationResponse?> verifyDeposit(txnRef) async {
+  Future<DepositVerificationResponse?> verifyDeposit({txnRef}) async {
     DepositVerificationRequest depositVerificationRequest = DepositVerificationRequest(
         txnRef: txnRef,
         publicKey: publicKey,
@@ -165,17 +166,18 @@ class Zainpay {
     return depositVerificationRequest.verifyDeposit();
   }
 
-  Future<ZainboxTransactionHistoryResponse?> getZainboxTransactionHistory(zainboxCode) async {
+  Future<ZainboxTransactionHistoryResponse?> getZainboxTransactionHistory({zainboxCode, int? count}) async {
     ZainboxTransactionsRequest zainboxTransactionsRequest = ZainboxTransactionsRequest(
         zainboxCode: zainboxCode,
         publicKey: publicKey,
+        count: 100, // optional default at 20
         isTest: isTest
     );
 
     return zainboxTransactionsRequest.getZainboxTransactionsHistory();
   }
 
-  Future<ZainboxCollectionSummaryByDateResponse?> getZainboxCollectionSummaryByDate(zainboxCode, {dateFrom, dateTo}) async {
+  Future<ZainboxCollectionSummaryByDateResponse?> getZainboxCollectionSummaryByDate({zainboxCode, dateFrom, dateTo}) async {
     ZainboxCollectionSummaryByDateRequest zainboxCollectionSummaryByDateRequest = ZainboxCollectionSummaryByDateRequest(
         zainboxCode: zainboxCode,
         publicKey: publicKey,
@@ -185,8 +187,8 @@ class Zainpay {
     return zainboxCollectionSummaryByDateRequest.getSummary();
   }
 
-  Future<CreateVirtualAccountResponse?> createVirtualAccount(fullName, email,
-      mobileNumber, zainboxCode) async {
+  Future<CreateVirtualAccountResponse?> createVirtualAccount({fullName, email,
+      mobileNumber, zainboxCode}) async {
     CreateVirtualAccountRequest createVirtualAccountRequest = CreateVirtualAccountRequest(
         email: email,
         mobileNumber: mobileNumber,
@@ -199,8 +201,8 @@ class Zainpay {
     return await createVirtualAccountRequest.createVirtualAccount();
   }
 
-  Future<CreateSettlementResponse?> createSettlement(name, scheduleType, schedulePeriod,
-      settlementList, status, zainboxCode) async {
+  Future<CreateSettlementResponse?> createSettlement({name, scheduleType, schedulePeriod,
+      settlementList, status, zainboxCode}) async {
     CreateSettlementRequest createSettlementRequest = CreateSettlementRequest(
         name: name,
         zainboxCode: zainboxCode,
@@ -215,8 +217,8 @@ class Zainpay {
     return await createSettlementRequest.createSettlement();
   }
 
-  Future<FundTransferResponse?> transferFund(destinationAccountNumber, destinationBankCode,
-      amount, txnRef, narration, sourceAccountNumber, sourceBankCode, zainboxCode) async {
+  Future<FundTransferResponse?> transferFund({destinationAccountNumber, destinationBankCode,
+      amount, txnRef, narration, sourceAccountNumber, sourceBankCode, zainboxCode}) async {
     FundTransferRequest fundTransferRequest = FundTransferRequest(
         destinationAccountNumber: destinationAccountNumber,
         destinationBankCode: destinationBankCode,
@@ -233,8 +235,8 @@ class Zainpay {
     return await fundTransferRequest.transferFund();
   }
 
-  Future<UpdateVirtualAccountStatusResponse?> updateVirtualAccountStatus(status,
-      accountNumber, zainboxCode) async {
+  Future<UpdateVirtualAccountStatusResponse?> updateVirtualAccountStatus({status,
+      accountNumber, zainboxCode}) async {
     UpdateVirtualAccountStatusRequest updateVirtualAccountStatusRequest = UpdateVirtualAccountStatusRequest(
         accountNumber: accountNumber,
         status: status,

@@ -9,11 +9,13 @@ class GetVirtualAccountTransactionsRequest {
 
   final bool isTest;
   final String accountNumber;
+  final int? count;
   final String publicKey;
 
   GetVirtualAccountTransactionsRequest({
     required this.accountNumber,
     required this.publicKey,
+    this.count = 20,
     required this.isTest
   });
 
@@ -22,7 +24,7 @@ class GetVirtualAccountTransactionsRequest {
 
     VirtualAccountTransactionsResponse? virtualAccountTransactionsResponse = VirtualAccountTransactionsResponse();
 
-    final url = "${Utils.getBaseUrl(isTest)}/${Utils.virtualAccountTransactionsUrl}/$accountNumber";
+    final url = "${Utils.getBaseUrl(isTest)}/${Utils.virtualAccountTransactionsUrl}/$accountNumber/$count";
 
     final response = await http.get(Uri.parse(url),
         headers: {

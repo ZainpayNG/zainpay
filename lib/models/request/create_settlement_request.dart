@@ -17,15 +17,16 @@ class CreateSettlementRequest {
   bool? status;
   bool? isTest;
 
-  CreateSettlementRequest(
-      {this.name,
-        this.zainboxCode,
-        this.scheduleType,
-        this.schedulePeriod,
-        required this.publicKey,
-        required this.isTest,
-        this.settlementAccountList,
-        this.status});
+  CreateSettlementRequest({
+    this.name,
+    this.zainboxCode,
+    this.scheduleType,
+    this.schedulePeriod,
+    required this.publicKey,
+    required this.isTest,
+    this.settlementAccountList,
+    this.status
+  });
 
   CreateSettlementRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];

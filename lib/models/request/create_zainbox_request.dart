@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zainpay/models/response/create_zainbox_response.dart';
 
-import 'package:zainpay/models/response/init_payment_response.dart';
-
 import '../../utils.dart';
 
 class CreateZainboxRequest {

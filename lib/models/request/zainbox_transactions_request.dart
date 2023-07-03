@@ -9,11 +9,13 @@ class ZainboxTransactionsRequest {
 
   final bool isTest;
   final String zainboxCode;
+  final int? count;
   final String publicKey;
 
   ZainboxTransactionsRequest({
     required this.zainboxCode,
     required this.publicKey,
+    this.count = 20,
     required this.isTest
   });
 
@@ -22,7 +24,7 @@ class ZainboxTransactionsRequest {
 
     ZainboxTransactionHistoryResponse? zainboxTransactionHistoryResponse = ZainboxTransactionHistoryResponse();
 
-    final url = "${Utils.getBaseUrl(isTest)}/${Utils.zainboxTransactionHistoryUrl}/$zainboxCode";
+    final url = "${Utils.getBaseUrl(isTest)}/${Utils.zainboxTransactionHistoryUrl}/$zainboxCode/$count";
 
     final response = await http.get(Uri.parse(url),
         headers: {

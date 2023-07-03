@@ -20,7 +20,7 @@ class Utils {
   static const initializePayment = "zainbox/card/initialize/payment";
   static const virtualAccountTransactionsUrl = "virtual-account/wallet/transactions";
   static const transactionVerificationUrl = "virtual-account/wallet/transaction/verify";
-  static const depositVerificationUrl = "virtual-account/wallet/deposit/verify";
+  static const depositVerificationUrl = "virtual-account/wallet/deposit/verify/v2";
   static const zainboxTransactionHistoryUrl = "zainbox/transactions";
   static const zainboxCollectionSummaryByDateUrl = "zainbox/transfer/deposit/summary";
   static const zainboxProfileUrl = "zainbox/profile";

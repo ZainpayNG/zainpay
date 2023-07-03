@@ -20,7 +20,7 @@ The Flutter library helps you create seamless payment experiences in your flutte
 
 ## Installation
 
-1. Add the dependency to your project. In your `pubspec.yaml`, file add: `zainpay: 0.1.20`.
+1. Add the dependency to your project. In your `pubspec.yaml`, file add: `zainpay: 0.1.21`.
 2. Run `flutter pub get`.
 
 ## Usage
@@ -98,9 +98,9 @@ Calling the `getZainboxVirtualAccountBalance(zainboxCode)` method returns a Futu
         showLoading("No Response!");
     }
 
-Calling the `getVirtualAccountTransactions(accountNumber)` method returns a Future of `ZainboxVirtualAccountsBalancesResponse?` which we await for the actual response as seen above.
+Calling the `getVirtualAccountTransactions(accountNumber, count[optional])` method returns a Future of `VirtualAccountTransactionsResponse?` which we await for the actual response as seen above.
 
-    final VirtualAccountTransactionsResponse? response = await zainpay.getVirtualAccountTransactions(accountNumber);
+    final VirtualAccountTransactionsResponse? response = await zainpay.getVirtualAccountTransactions(accountNumber, count);
 
     if (response != null) {
         showLoading(response.status!);
@@ -153,9 +153,9 @@ Calling the `verifyDeposit(txnRef)` method returns a Future of `DepositVerificat
         showLoading("No Response!");
     }
 
-Calling the `getZainboxTransactionHistory(zainboxCode)` method returns a Future of `ZainboxTransactionHistoryResponse?` which we await for the actual response as seen above.
+Calling the `getZainboxTransactionHistory(zainboxCode, count[optional])` method returns a Future of `ZainboxTransactionHistoryResponse?` which we await for the actual response as seen above.
 
-    final ZainboxTransactionHistoryResponse? response = await zainpay.getZainboxTransactionHistory(zainboxCode);
+    final ZainboxTransactionHistoryResponse? response = await zainpay.getZainboxTransactionHistory(zainboxCode, count);
 
     if (response != null) {
         showLoading(response.status!);
@@ -238,7 +238,7 @@ The `amount` parameter should be in kobo decimalisation, txnRef (unique per each
 #### Note:
 
 1. All requests can be null if a user cancels the transaction by pressing back.
-2. You need to confirm the transaction is successful. Ensure that the txRef, amount, and status are correct and successful.
+2. You need to confirm the transaction is successful. Ensure that the txnRef, amount, and status are correct and successful.
 3. Be sure to verify the transaction details before providing value.
 
 ## License

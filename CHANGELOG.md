@@ -25,3 +25,7 @@
 * response code fix.
 * new parameters for initializing zainpay
 * new features when integrating with zainpay, such as createAccount, get virtual account balance, view transaction status, disabling virtual account, card payment etc
+
+## [0.1.20- 0.1.21] - Release July, 2023
+
+* updated optional parameter for count on list of zainbox transactions, virtual account transactions.
