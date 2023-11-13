@@ -29,3 +29,7 @@
 ## [0.1.20- 0.1.21] - Release July, 2023
 
 * updated optional parameter for count on list of zainbox transactions, virtual account transactions.
+
+## [0.1.21- 0.1.22] - Release November, 2023
+
+* update zainbox implemented.

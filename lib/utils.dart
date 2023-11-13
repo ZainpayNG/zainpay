@@ -6,6 +6,7 @@ class Utils {
   static const liveBaseURL = "https://api.zainpay.ng";
 
   static const createZainboxUrl = "zainbox/create/request";
+  static const updateZainboxUrl = "zainbox/update";
   static const getAllZainboxesUrl = "zainbox/list";
   static const getAllZainboxAccountsUrl = "zainbox/virtual-accounts";
 

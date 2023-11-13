@@ -27,8 +27,8 @@ class ZainboxCollectionSummaryByDateRequest {
 
     final url = dateFrom != null && dateTo != null ?
     "${Utils.getBaseUrl(isTest)}/${Utils.zainboxCollectionSummaryByDateUrl}/$zainboxCode?dateFrom=$dateFrom&dateTo=$dateTo"
-        : dateFrom != null ? "${Utils.getBaseUrl(isTest)}/${Utils.zainboxCollectionSummaryByDateUrl}/$zainboxCode"
-        : "${Utils.getBaseUrl(isTest)}/${Utils.zainboxCollectionSummaryByDateUrl}/$zainboxCode?dateFrom=$dateFrom";
+        : dateFrom != null ? "${Utils.getBaseUrl(isTest)}/${Utils.zainboxCollectionSummaryByDateUrl}/$zainboxCode?dateFrom=$dateFrom"
+        : "${Utils.getBaseUrl(isTest)}/${Utils.zainboxCollectionSummaryByDateUrl}/$zainboxCode";
 
     final response = await http.get(Uri.parse(url),
         headers: {

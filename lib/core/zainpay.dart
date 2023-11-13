@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zainpay/models/request/initialize_card_payment_request.dart';
+import 'package:zainpay/models/request/update_zainbox_request.dart';
 import 'package:zainpay/models/response/initialize_card_payment_response.dart';
 import '/models/request/create_settlement_request.dart';
 import '/models/request/create_va_request.dart';
@@ -58,6 +59,20 @@ class Zainpay {
     );
 
     return await createZainboxRequest.createZainbox();
+  }
+
+  Future<CreateZainboxResponse?> updateZainbox(zainboxCode, name, tags, callbackUrl, email) async {
+    UpdateZainboxRequest updateZainboxRequest = UpdateZainboxRequest(
+        zainboxCode: zainboxCode,
+        name: name,
+        tags: tags,
+        callbackUrl: callbackUrl,
+        email: email,
+        publicKey: publicKey,
+        isTest: isTest,
+    );
+
+    return await updateZainboxRequest.updateZainbox();
   }
 
   Future<CardPaymentResponse?> initializeCardPayment({amount, txnRef, mobileNumber,

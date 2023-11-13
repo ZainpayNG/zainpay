@@ -20,7 +20,7 @@ The Flutter library helps you create seamless payment experiences in your flutte
 
 ## Installation
 
-1. Add the dependency to your project. In your `pubspec.yaml`, file add: `zainpay: 0.1.21`.
+1. Add the dependency to your project. In your `pubspec.yaml`, file add: `zainpay: 0.1.22`.
 2. Run `flutter pub get`.
 
 ## Usage
@@ -46,6 +46,17 @@ It returns an instance of Zainpay which we then call the async methods on for ev
 Calling the `createZainbox(name, tags, callbackUrl, email)` method returns a Future of `CreateZainboxResponse?` which we await for the actual response as seen above.
 
     final CreateZainboxResponse? response = await zainpay.createZainbox(name, tags, callbackUrl, email);
+
+    if (response != null) {
+        showLoading(response.status!);
+        debugPrint("${response.toJson()}");
+    } else {
+        showLoading("No Response!");
+    }
+
+Calling the `updateZainbox(zainboxCode, name[optional], tags[optional], callbackUrl[optional], email[optional])` method returns a Future of `CreateZainboxResponse?` which we await for the actual response as seen above.
+
+    final CreateZainboxResponse? response = await zainpay.updateZainbox(zainboxCode, name, tags, callbackUrl, email);
 
     if (response != null) {
         showLoading(response.status!);
